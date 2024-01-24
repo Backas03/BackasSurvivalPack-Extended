@@ -1,0 +1,16 @@
+name: BackasSurvivalPack-Extended
+version: '${version}'
+main: kr.kro.backas.backassurvivalpackextended.BackasSurvivalPackExtended
+api-version: 1.20
+
+commands:
+  ranking:
+    description: 랭킹을 확인합니다.
+    aliases: [rank, 랭킹, 랭크, fodzm, fodzld, top]
+  money:
+    description: 돈을 송금하거나 확인합니다.
+    aliases: [돈, money, balance, bal, m, mny, ehs]
+  money-admin:
+    permission: op
+    description: 돈을 관리합니다.
+    aliases: [돈관리]
