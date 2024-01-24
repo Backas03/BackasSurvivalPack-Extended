@@ -3,6 +3,7 @@ package kr.kro.backas.backassurvivalpackextended.easyshop;
 import kr.kro.backas.backassurvivalpackextended.MoneyManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -48,10 +49,10 @@ public class EasyShopListener implements Listener {
             }
             MoneyManager.addMoney(player, cost * itemStack.getAmount());
             player.sendMessage(Component.text().append(
-                    Component.translatable(itemStack.translationKey()).color(NamedTextColor.GOLD),
+                    Component.translatable(itemStack.translationKey()).color(NamedTextColor.WHITE).decorate(TextDecoration.BOLD),
                     Component.text(" (x" + itemStack.getAmount() + ") ", NamedTextColor.DARK_GRAY),
                     Component.text("을(를) ", NamedTextColor.GRAY),
-                    Component.text(cost * itemStack.getAmount(), NamedTextColor.WHITE),
+                    Component.text(cost * itemStack.getAmount(), NamedTextColor.YELLOW),
                     Component.text("원에 판매하였습니다.", NamedTextColor.GRAY)
             ));
         }
@@ -78,9 +79,13 @@ public class EasyShopListener implements Listener {
         }
         player.sendMessage(Component.text().append(
                 Component.text("[판매완료] ", NamedTextColor.GREEN),
-                Component.text(" 수익 ", NamedTextColor.WHITE),
+                Component.text("수익", NamedTextColor.WHITE),
                 Component.text(" +" + (MoneyManager.getMoney(player) - oldMoney) + "원 ", NamedTextColor.YELLOW),
-            Component.text("(" + oldMoney + "원 => " + MoneyManager.getMoney(player) + "원)", NamedTextColor.DARK_GRAY))
+                Component.text("(", NamedTextColor.GRAY),
+                Component.text(oldMoney + "원 ", NamedTextColor.DARK_GRAY),
+                Component.text("⮕ ", NamedTextColor.GRAY),
+                Component.text(MoneyManager.getMoney(player) + "원", NamedTextColor.WHITE),
+                Component.text(")", NamedTextColor.GRAY))
         );
     }
 }
