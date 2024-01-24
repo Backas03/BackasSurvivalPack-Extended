@@ -16,4 +16,4 @@ commands:
     aliases: [돈관리]
   shop:
     description: 상점을 엽니다.
-    aliases: [상점, 상점열기, 상점열어, 상점열어줘]
+    aliases: [상점, 상점열기, 상점열어, 상점열어줘, tkdwja, tkdwjadufrl, 판매, vksao]

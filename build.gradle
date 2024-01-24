@@ -23,7 +23,7 @@ dependencies {
 
 task copyJar(type: Copy) {
     from jar
-    into 'C:\\Users\\wkgus\\dev\\paper-1.20.4\\plugins'
+    into 'C:\\build'
 }
 
 def targetJavaVersion = 17

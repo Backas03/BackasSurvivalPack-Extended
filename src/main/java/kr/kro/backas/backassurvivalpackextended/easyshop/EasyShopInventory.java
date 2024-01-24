@@ -14,6 +14,9 @@ public class EasyShopInventory {
 
     static {
         COSTS.put(Material.DIAMOND, 10000);
+        COSTS.put(Material.DIRT, 5);
+        COSTS.put(Material.GRASS_BLOCK, 5);
+        COSTS.put(Material.NETHERITE_INGOT, 100000);
     }
 
     public static final Component INVENTORY_NAME = Component.text("판매하려는 아이템을 넣고 창을 닫아주세요")

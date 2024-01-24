@@ -19,6 +19,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.server.ServerLoadEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -32,6 +33,25 @@ public class MoneyRanking extends AbstractRanking<DoubleRankData> {
     @Override
     public Listener getUpdateListener() {
         return new Listener() {
+            @EventHandler
+            public void onLoad(ServerLoadEvent event) {
+                for (OfflinePlayer ofp : Bukkit.getOfflinePlayers()) {
+                    User user = BackasSurvivalPackExtended.getUserManager()
+                            .newInstance(ofp);
+                    if (getRankData(ofp.getUniqueId()) != null) {
+                        continue;
+                    }
+                    DoubleRankData data = new DoubleRankData(
+                            ofp.getUniqueId(),
+                            ofp.getName(),
+                            user.getDataContainer()
+                                    .getOrLoad(UserDataMoney.class)
+                                    .getAmount()
+                    );
+                    ranks.add(data);
+                }
+            }
+
             @EventHandler
             public void onMoneyUpdate(PlayerMoneyUpdateEvent event) {
                 Player player = event.getPlayer();
@@ -60,7 +80,9 @@ public class MoneyRanking extends AbstractRanking<DoubleRankData> {
                                 .getOrLoad(UserDataMoney.class)
                                 .getAmount()
                 );
-                ranks.add(data);
+                if (getRankData(player) == null) {
+                    ranks.add(data);
+                }
             }
         };
     }
@@ -86,9 +108,9 @@ public class MoneyRanking extends AbstractRanking<DoubleRankData> {
     public void send(Player player, int displayAmount, int page) {
         if (displayAmount < 1) displayAmount = 1;
 
-        int maxPage = (int) (Math.floor((double) ranks.size() / displayAmount) + 1);
+        int maxPage = (int) Math.ceil((double) ranks.size() / displayAmount);
         Component previousPageMessage = page <= 1 ? Component.empty() :
-                Component.text("[이전]", NamedTextColor.GRAY)
+                Component.text("[이전] ", NamedTextColor.RED)
                         .hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT,
                                 Component.text("클릭하여 이전 페이지로 이동합니다.\n" +
                                         "/ranking " + getName() + " " + (page - 1)
@@ -97,7 +119,7 @@ public class MoneyRanking extends AbstractRanking<DoubleRankData> {
         Component nextPageMessage = page >= maxPage ? Component.empty() :
                 Component.text().append(
                         Component.space(),
-                        Component.text("[다음]", NamedTextColor.GRAY)
+                        Component.text("[다음]", NamedTextColor.GREEN)
                                 .hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT,
                                         Component.text("클릭하여 다음 페이지로 이동합니다.\n" +
                                                 "/ranking " + getName() + " " + (page + 1)

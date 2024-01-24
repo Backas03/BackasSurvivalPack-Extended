@@ -8,6 +8,8 @@ import kr.kro.backas.backassurvivalpackextended.easyshop.EasyShopListener;
 import kr.kro.backas.backassurvivalpackextended.ranking.RankingManager;
 import kr.kro.backas.backassurvivalpackextended.user.UserListener;
 import kr.kro.backas.backassurvivalpackextended.user.UserManager;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class BackasSurvivalPackExtended extends JavaPlugin {
