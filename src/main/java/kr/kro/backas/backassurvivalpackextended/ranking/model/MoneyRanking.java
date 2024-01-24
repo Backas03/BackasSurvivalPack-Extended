@@ -21,18 +21,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.util.*;
 
 public class MoneyRanking extends AbstractRanking<DoubleRankData> {
     @Override
     public @NotNull String getName() {
         return "돈";
-    }
-
-    @Override
-    public @NotNull File getFile() {
-        return new File(getDataFolder(), "money.yml");
     }
 
     @Override
@@ -74,17 +68,7 @@ public class MoneyRanking extends AbstractRanking<DoubleRankData> {
     @Override
     protected void load() {
         ranks.clear();
-        YamlConfiguration yaml = YamlConfiguration.loadConfiguration(getFile());
-        Set<UUID> uuids = new HashSet<>();
-        for (String key : yaml.getKeys(false)) {
-            DoubleRankData data = yaml.getSerializable(key, DoubleRankData.class);
-            if (data == null) continue;
-            uuids.add(data.getUniqueId());
-            ranks.add(data);
-        }
         for (OfflinePlayer offlinePlayer : Bukkit.getOfflinePlayers()) {
-            if (uuids.contains(offlinePlayer.getUniqueId())) continue;
-
             User user = BackasSurvivalPackExtended.getUserManager()
                     .newInstance(offlinePlayer);
             DoubleRankData data = new DoubleRankData(

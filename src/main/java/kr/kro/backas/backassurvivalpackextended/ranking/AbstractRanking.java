@@ -14,7 +14,6 @@ import java.util.UUID;
 
 public abstract class AbstractRanking<T extends RankData<?>> {
     public abstract @NotNull String getName();
-    public abstract @NotNull File getFile();
     public abstract Listener getUpdateListener();
     public abstract void send(Player player, int displayAmount, int page);
     protected abstract void load();
@@ -73,24 +72,5 @@ public abstract class AbstractRanking<T extends RankData<?>> {
 
     public T getRankData(Player player) {
         return getRankData(player.getUniqueId());
-    }
-
-    public File getDataFolder() {
-        return new File(BackasSurvivalPackExtended.getInstance().getDataFolder(),
-                "Rankings");
-
-    }
-
-    public void save() throws IOException {
-        File file = getFile();
-        if (!file.exists()) {
-            file.createNewFile();
-        }
-        YamlConfiguration yaml = new YamlConfiguration();
-        int rank = 1;
-        for (T data : ranks) {
-            yaml.set(String.valueOf(rank++), data);
-        }
-        yaml.save(file);
     }
 }
