@@ -42,13 +42,13 @@ public class MoneyAdminCommand implements CommandExecutor {
         if (args[0].equalsIgnoreCase("take")) {
             MoneyManager.removeMoney(target, amount);
             sender.sendMessage(Component.text("성공적으로 " + target.getName() + "님의 " + amount + "원을 차감하였습니다.", NamedTextColor.GREEN));
-            target.sendMessage(Component.text("관리자가 당신의 돈을 " + amount + "원 차감하였습니다.", NamedTextColor.GREEN));
+            target.sendMessage(Component.text("관리자가 당신의 돈을 " + amount + "원 차감하였습니다.", NamedTextColor.RED));
             return true;
         }
         if (args[0].equalsIgnoreCase("set")) {
             MoneyManager.setMoney(target, amount);
             sender.sendMessage(Component.text("성공적으로 " + target.getName() + "님의 돈을 " + amount + "원으로 설정하였습니다.", NamedTextColor.GREEN));
-            target.sendMessage(Component.text("관리자가 당신의 돈을 " + amount + "원으로 설정하였습니다.", NamedTextColor.GREEN));
+            target.sendMessage(Component.text("관리자가 당신의 돈을 " + amount + "원으로 설정하였습니다.", NamedTextColor.YELLOW));
             return true;
         }
         return false;
