@@ -1,8 +1,10 @@
 package kr.kro.backas.backassurvivalpackextended;
 
+import kr.kro.backas.backassurvivalpackextended.command.EasyShopCommand;
 import kr.kro.backas.backassurvivalpackextended.command.MoneyCommand;
 import kr.kro.backas.backassurvivalpackextended.command.RankingCommand;
 import kr.kro.backas.backassurvivalpackextended.command.admin.MoneyAdminCommand;
+import kr.kro.backas.backassurvivalpackextended.easyshop.EasyShopListener;
 import kr.kro.backas.backassurvivalpackextended.ranking.RankingManager;
 import kr.kro.backas.backassurvivalpackextended.user.UserListener;
 import kr.kro.backas.backassurvivalpackextended.user.UserManager;
@@ -38,10 +40,12 @@ public final class BackasSurvivalPackExtended extends JavaPlugin {
         rankingManager = new RankingManager();
 
         getServer().getPluginManager().registerEvents(new UserListener(), this);
+        getServer().getPluginManager().registerEvents(new EasyShopListener(), this);
 
         getCommand("ranking").setExecutor(new RankingCommand());
         getCommand("money").setExecutor(new MoneyCommand());
         getCommand("money-admin").setExecutor(new MoneyAdminCommand());
+        getCommand("shop").setExecutor(new EasyShopCommand());
     }
 
     @Override
