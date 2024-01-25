@@ -3,6 +3,7 @@ package kr.kro.backas.backassurvivalpackextended.ranking.model;
 import kr.kro.backas.backassurvivalpackextended.BackasSurvivalPackExtended;
 import kr.kro.backas.backassurvivalpackextended.api.PlayerMoneyUpdateEvent;
 import kr.kro.backas.backassurvivalpackextended.api.PlayerSendMoneyEvent;
+import kr.kro.backas.backassurvivalpackextended.api.UserDataPreLoadDoneEvent;
 import kr.kro.backas.backassurvivalpackextended.ranking.AbstractRanking;
 import kr.kro.backas.backassurvivalpackextended.ranking.ReloadCondition;
 import kr.kro.backas.backassurvivalpackextended.ranking.data.DoubleRankData;
@@ -67,8 +68,8 @@ public class MoneyRanking extends AbstractRanking<DoubleRankData> {
             }
 
             @EventHandler
-            public void onJoin(PlayerJoinEvent event) {
-                Player player = event.getPlayer();
+            public void onDataLoaded(UserDataPreLoadDoneEvent event) {
+                Player player = event.getUser().getPlayer();
                 DoubleRankData data = getRankData(player);
                 if (data != null) return;
 
@@ -77,7 +78,7 @@ public class MoneyRanking extends AbstractRanking<DoubleRankData> {
                 data = new DoubleRankData(
                         player,
                         user.getDataContainer()
-                                .getOrLoad(UserDataMoney.class)
+                                .get(UserDataMoney.class)
                                 .getAmount()
                 );
                 if (getRankData(player) == null) {
