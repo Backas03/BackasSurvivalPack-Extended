@@ -45,7 +45,9 @@ public class UserDataContainer {
                     LOGGER.error("유저 데이터를 가져오는 중 오류가 발생하였습니다. userDataClass={}", userDataClass, e);
                 }
             }
-            Bukkit.getPluginManager().callEvent(new UserDataPreLoadDoneEvent(user));
+            Bukkit.getScheduler().runTask(BackasSurvivalPackExtended.getInstance(), () ->
+                    Bukkit.getPluginManager().callEvent(new UserDataPreLoadDoneEvent(user))
+            );
         });
     }
 

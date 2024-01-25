@@ -35,6 +35,7 @@ public class User {
         return name;
     }
 
+    @Nullable
     public Player getPlayer() {
         return Bukkit.getPlayer(uniqueId);
     }

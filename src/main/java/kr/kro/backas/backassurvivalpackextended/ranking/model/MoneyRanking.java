@@ -70,6 +70,7 @@ public class MoneyRanking extends AbstractRanking<DoubleRankData> {
             @EventHandler
             public void onDataLoaded(UserDataPreLoadDoneEvent event) {
                 Player player = event.getUser().getPlayer();
+                if (player == null) return;
                 DoubleRankData data = getRankData(player);
                 if (data != null) return;
 
