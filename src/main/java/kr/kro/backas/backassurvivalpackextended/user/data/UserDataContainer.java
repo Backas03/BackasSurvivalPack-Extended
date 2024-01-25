@@ -1,8 +1,10 @@
 package kr.kro.backas.backassurvivalpackextended.user.data;
 
 import kr.kro.backas.backassurvivalpackextended.BackasSurvivalPackExtended;
+import kr.kro.backas.backassurvivalpackextended.api.UserDataPreLoadDoneEvent;
 import kr.kro.backas.backassurvivalpackextended.user.User;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataMoney;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,20 +28,25 @@ public class UserDataContainer {
     private final User user;
     private final Map<Class<? extends UserData>, UserData> userDataMap;
 
+    @SuppressWarnings("unchecked")
     public UserDataContainer(User user) {
         this.user = user;
         this.userDataMap = new HashMap<>();
 
-        YamlConfiguration yaml = loadYaml();
-        for (Class<? extends UserData> userDataClass : EARLY_LOADS) {
-            try {
-                Method loaderMethod = userDataClass.getMethod("loader");
-                UserDataLoader<? extends UserData> loader = (UserDataLoader<? extends UserData>) loaderMethod.invoke(null);
-                userDataMap.put(userDataClass, loader.load(yaml));
-            } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
-                LOGGER.error("유저 데이터를 가져오는 중 오류가 발생하였습니다. userDataClass={}", userDataClass, e);
+        // 접속시 바로 로드해야할 유저 데이터를 비동기적으로 불러옵니다.
+        Bukkit.getScheduler().runTaskAsynchronously(BackasSurvivalPackExtended.getInstance(), () -> {
+            YamlConfiguration yaml = loadYaml();
+            for (Class<? extends UserData> userDataClass : EARLY_LOADS) {
+                try {
+                    Method loaderMethod = userDataClass.getMethod("loader");
+                    UserDataLoader<? extends UserData> loader = (UserDataLoader<? extends UserData>) loaderMethod.invoke(null);
+                    userDataMap.put(userDataClass, loader.load(yaml));
+                } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
+                    LOGGER.error("유저 데이터를 가져오는 중 오류가 발생하였습니다. userDataClass={}", userDataClass, e);
+                }
             }
-        }
+            Bukkit.getPluginManager().callEvent(new UserDataPreLoadDoneEvent(user));
+        });
     }
 
     @SuppressWarnings("unchecked")

@@ -1,7 +1,9 @@
 package kr.kro.backas.backassurvivalpackextended.user;
 
 import kr.kro.backas.backassurvivalpackextended.user.data.UserDataContainer;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
@@ -31,5 +33,9 @@ public class User {
 
     public String getName() {
         return name;
+    }
+
+    public Player getPlayer() {
+        return Bukkit.getPlayer(uniqueId);
     }
 }
