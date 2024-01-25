@@ -1,6 +1,7 @@
 package kr.kro.backas.backassurvivalpackextended.easyshop;
 
 import kr.kro.backas.backassurvivalpackextended.MoneyManager;
+import kr.kro.backas.backassurvivalpackextended.easyshop.purchase.EasyPurchaseInventory;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -11,6 +12,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -20,6 +22,66 @@ import java.util.HashMap;
 import java.util.List;
 
 public class EasyShopListener implements Listener {
+
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent event) {
+        if (!event.getView().title().equals(EasyPurchaseInventory.INVENTORY_TITLE)) {
+            return;
+        }
+        event.setCancelled(true);
+        if (!(event.getWhoClicked() instanceof Player player)) {
+            return;
+        }
+        if (!event.getInventory().equals(event.getView().getTopInventory())) {
+            return;
+        }
+
+        int cost = EasyPurchaseInventory.getCost(event.getRawSlot());
+
+        if (cost == 0) {
+            player.sendMessage(Component.text("해당 아이템은 판매할 수 없습니다.", NamedTextColor.RED));
+            return;
+        }
+
+        if (!event.getClick().isLeftClick()) {
+            return;
+        }
+
+        int amount = event.getClick().isShiftClick() ? 64 : 1;
+
+        if (MoneyManager.getMoney(player) < cost * amount) {
+            player.sendMessage(Component.text("돈이 부족합니다.", NamedTextColor.RED));
+            return;
+        }
+        ItemStack item = EasyPurchaseInventory.getItem(event.getRawSlot());
+        if (item == null) {
+            player.sendMessage(Component.text("해당 아이템의 가격을 불러올 수 없습니다.", NamedTextColor.RED));
+            return;
+        }
+
+        HashMap<Integer, ItemStack> noSpaces = player.getInventory().addItem(item);
+        if (!noSpaces.isEmpty()) {
+            amount -= noSpaces.values().stream().mapToInt(ItemStack::getAmount).sum();
+        }
+
+        if (amount == 0) {
+            player.sendMessage(Component.text("인벤토리에 공간이 부족합니다.", NamedTextColor.RED));
+            player.closeInventory();
+            return;
+        }
+
+        MoneyManager.removeMoney(player, cost * amount);
+        player.sendMessage(Component.text().append(
+                Component.text("[구매완료] ", NamedTextColor.GREEN),
+                Component.text("지출", NamedTextColor.WHITE),
+                    Component.text(" -" + (cost * amount) + "원 ", NamedTextColor.RED),
+                Component.text("(", NamedTextColor.GRAY),
+                Component.text(MoneyManager.getMoney(player) + "원 ", NamedTextColor.DARK_GRAY),
+                Component.text("⮕ ", NamedTextColor.GRAY),
+                Component.text((MoneyManager.getMoney(player) - (cost * amount)) + "원", NamedTextColor.WHITE),
+                Component.text(")", NamedTextColor.GRAY))
+        );
+    }
 
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {
