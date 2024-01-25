@@ -1,5 +1,6 @@
 package kr.kro.backas.backassurvivalpackextended;
 
+import kr.kro.backas.backassurvivalpackextended.command.EasyPurchaseCommand;
 import kr.kro.backas.backassurvivalpackextended.command.EasyShopCommand;
 import kr.kro.backas.backassurvivalpackextended.command.MoneyCommand;
 import kr.kro.backas.backassurvivalpackextended.command.RankingCommand;
@@ -47,7 +48,8 @@ public final class BackasSurvivalPackExtended extends JavaPlugin {
         getCommand("ranking").setExecutor(new RankingCommand());
         getCommand("money").setExecutor(new MoneyCommand());
         getCommand("money-admin").setExecutor(new MoneyAdminCommand());
-        getCommand("shop").setExecutor(new EasyShopCommand());
+        getCommand("sell").setExecutor(new EasyShopCommand());
+        getCommand("shop").setExecutor(new EasyPurchaseCommand());
     }
 
     @Override

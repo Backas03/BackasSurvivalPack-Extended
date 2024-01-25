@@ -14,6 +14,9 @@ commands:
     permission: op
     description: 돈을 관리합니다.
     aliases: [돈관리]
+  sell:
+    description: 상점을 엽니다.
+    aliases: [판매, vksao]
   shop:
     description: 상점을 엽니다.
-    aliases: [상점, 상점열기, 상점열어, 상점열어줘, tkdwja, tkdwjadufrl, 판매, vksao]
+    aliases: [상점, 상점열기, 상점열어, 상점열어줘, tkdwja, tkdwjadufrl]

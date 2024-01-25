@@ -32,14 +32,18 @@ public class EasyShopListener implements Listener {
         if (!(event.getWhoClicked() instanceof Player player)) {
             return;
         }
-        if (!event.getInventory().equals(event.getView().getTopInventory())) {
+        if (event.getClickedInventory() == null) {
             return;
         }
-
+        if (!event.getClickedInventory().equals(event.getView().getTopInventory())) {
+            return;
+        }
+        if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR) {
+            return;
+        }
         int cost = EasyPurchaseInventory.getCost(event.getRawSlot());
-
         if (cost == 0) {
-            player.sendMessage(Component.text("해당 아이템은 판매할 수 없습니다.", NamedTextColor.RED));
+            player.sendMessage(Component.text("해당 아이템은 구매할 수 없습니다.", NamedTextColor.RED));
             return;
         }
 
@@ -51,6 +55,7 @@ public class EasyShopListener implements Listener {
 
         if (MoneyManager.getMoney(player) < cost * amount) {
             player.sendMessage(Component.text("돈이 부족합니다.", NamedTextColor.RED));
+            player.closeInventory();
             return;
         }
         ItemStack item = EasyPurchaseInventory.getItem(event.getRawSlot());
@@ -58,7 +63,8 @@ public class EasyShopListener implements Listener {
             player.sendMessage(Component.text("해당 아이템의 가격을 불러올 수 없습니다.", NamedTextColor.RED));
             return;
         }
-
+        item = item.clone();
+        item.setAmount(amount);
         HashMap<Integer, ItemStack> noSpaces = player.getInventory().addItem(item);
         if (!noSpaces.isEmpty()) {
             amount -= noSpaces.values().stream().mapToInt(ItemStack::getAmount).sum();
@@ -73,7 +79,9 @@ public class EasyShopListener implements Listener {
         MoneyManager.removeMoney(player, cost * amount);
         player.sendMessage(Component.text().append(
                 Component.text("[구매완료] ", NamedTextColor.GREEN),
-                Component.text("지출", NamedTextColor.WHITE),
+                Component.translatable(item.translationKey()).color(NamedTextColor.WHITE).decorate(TextDecoration.BOLD),
+                Component.text(" (x" + amount + ") ", NamedTextColor.DARK_GRAY),
+                Component.text("지출", NamedTextColor.GRAY),
                     Component.text(" -" + (cost * amount) + "원 ", NamedTextColor.RED),
                 Component.text("(", NamedTextColor.GRAY),
                 Component.text(MoneyManager.getMoney(player) + "원 ", NamedTextColor.DARK_GRAY),

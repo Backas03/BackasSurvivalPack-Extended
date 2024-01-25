@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -15,6 +16,10 @@ import java.util.Map;
 public class EasyPurchaseInventory {
 
     private static final Map<ItemStack, Integer> LIST_OF_ITEMS = new HashMap<>();
+
+    static {
+        LIST_OF_ITEMS.put(new ItemStack(Material.DIAMOND), 10000);
+    }
 
     public static final Component INVENTORY_TITLE = Component.text("상점").decorate(TextDecoration.BOLD);
 
@@ -37,12 +42,12 @@ public class EasyPurchaseInventory {
                lore.add(Component.text().append(
                        Component.text("가격: ", NamedTextColor.WHITE),
                        Component.text(entry.getValue() + "원", NamedTextColor.YELLOW)
-               ).build());
+               ).build().style(style -> style.decoration(TextDecoration.ITALIC, false)));
                lore.add(Component.empty());
                lore.add(Component.text("[좌클릭]", NamedTextColor.GREEN).append(
-                       Component.text("1개 구매", NamedTextColor.WHITE)));
+                       Component.text(" 1개 구매", NamedTextColor.WHITE)).style(style -> style.decoration(TextDecoration.ITALIC, false)));
                lore.add(Component.text("[쉬프트 + 좌클릭]", NamedTextColor.GREEN).append(
-                       Component.text("64개 구매", NamedTextColor.WHITE)));
+                       Component.text(" 64개 구매", NamedTextColor.WHITE)).style(style -> style.decoration(TextDecoration.ITALIC, false)));
 
                itemMeta.lore(lore);
            });
