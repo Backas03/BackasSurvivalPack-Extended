@@ -24,7 +24,7 @@ public class MoneyCommand implements CommandExecutor {
             player.sendMessage(Component.text().append(
                             Component.text("[정보] ", NamedTextColor.GREEN),
                             Component.text("현재 보유 금액: ", NamedTextColor.WHITE),
-                            Component.text(MoneyManager.getMoney(player) + "원", NamedTextColor.YELLOW)
+                            Component.text(MoneyManager.getMoney(player) + BackasSurvivalPackExtended.MONEY_UNIT, NamedTextColor.YELLOW)
                     )
             );
             player.sendMessage(Component.text().append(
@@ -67,14 +67,14 @@ public class MoneyCommand implements CommandExecutor {
             player.sendMessage(Component.text().append(
                     Component.text(target.getName(), NamedTextColor.GREEN),
                     Component.text(" 님께 ", NamedTextColor.WHITE),
-                    Component.text(amount + "원", NamedTextColor.YELLOW),
-                    Component.text("을 송금하였습니다.", NamedTextColor.WHITE)
+                    Component.text(amount + BackasSurvivalPackExtended.MONEY_UNIT, NamedTextColor.YELLOW),
+                    Component.text("를 송금하였습니다.", NamedTextColor.WHITE)
             ));
             target.sendMessage(Component.text().append(
                     Component.text(player.getName(), NamedTextColor.GREEN),
                     Component.text(" 님께서 ", NamedTextColor.WHITE),
-                    Component.text(amount + "원", NamedTextColor.YELLOW),
-                    Component.text("을 송금하였습니다.", NamedTextColor.WHITE)
+                    Component.text(amount + BackasSurvivalPackExtended.MONEY_UNIT, NamedTextColor.YELLOW),
+                    Component.text("를 송금하였습니다.", NamedTextColor.WHITE)
             ));
         }
         return false;

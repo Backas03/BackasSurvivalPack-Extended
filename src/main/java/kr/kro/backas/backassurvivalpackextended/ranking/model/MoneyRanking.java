@@ -79,7 +79,7 @@ public class MoneyRanking extends AbstractRanking<DoubleRankData> {
                 data = new DoubleRankData(
                         player,
                         user.getDataContainer()
-                                .get(UserDataMoney.class)
+                                .getOrLoad(UserDataMoney.class)
                                 .getAmount()
                 );
                 if (getRankData(player) == null) {
@@ -150,7 +150,7 @@ public class MoneyRanking extends AbstractRanking<DoubleRankData> {
                     .append(Component.text("[#" + (rankIndex + 1) + "] ", NamedTextColor.GREEN))
                     .append(Component.text(data.getPlayerName(), NamedTextColor.AQUA))
                     .append(Component.text(" - ", NamedTextColor.GRAY))
-                    .append(Component.text(data.getAmount() + "원", NamedTextColor.YELLOW))
+                    .append(Component.text(data.getAmount() + BackasSurvivalPackExtended.MONEY_UNIT, NamedTextColor.YELLOW))
             );
         }
         int playerRank = getRank(player);
@@ -161,7 +161,7 @@ public class MoneyRanking extends AbstractRanking<DoubleRankData> {
         player.sendMessage(Component.text().append(
                 Component.text("당신의 순위: ", NamedTextColor.WHITE),
                 Component.text(playerRank + "위", NamedTextColor.GOLD),
-                Component.text("(" + getRankData(player).getAmount() + "원)", NamedTextColor.GRAY))
+                Component.text("(" + getRankData(player).getAmount() + BackasSurvivalPackExtended.MONEY_UNIT + ")", NamedTextColor.GRAY))
         );
     }
 }

@@ -1,5 +1,6 @@
 package kr.kro.backas.backassurvivalpackextended.easyshop;
 
+import kr.kro.backas.backassurvivalpackextended.BackasSurvivalPackExtended;
 import kr.kro.backas.backassurvivalpackextended.MoneyManager;
 import kr.kro.backas.backassurvivalpackextended.easyshop.purchase.EasyPurchaseInventory;
 import net.kyori.adventure.text.Component;
@@ -76,17 +77,19 @@ public class EasyShopListener implements Listener {
             return;
         }
 
+        int oldMoney = MoneyManager.getMoney(player);
+
         MoneyManager.removeMoney(player, cost * amount);
         player.sendMessage(Component.text().append(
                 Component.text("[구매완료] ", NamedTextColor.GREEN),
                 Component.translatable(item.translationKey()).color(NamedTextColor.WHITE).decorate(TextDecoration.BOLD),
                 Component.text(" (x" + amount + ") ", NamedTextColor.DARK_GRAY),
                 Component.text("지출", NamedTextColor.GRAY),
-                    Component.text(" -" + (cost * amount) + "원 ", NamedTextColor.RED),
+                    Component.text(" -" + (cost * amount) + BackasSurvivalPackExtended.MONEY_UNIT + " ", NamedTextColor.RED),
                 Component.text("(", NamedTextColor.GRAY),
-                Component.text(MoneyManager.getMoney(player) + "원 ", NamedTextColor.DARK_GRAY),
+                Component.text(oldMoney + BackasSurvivalPackExtended.MONEY_UNIT + " ", NamedTextColor.DARK_GRAY),
                 Component.text("⮕ ", NamedTextColor.GRAY),
-                Component.text((MoneyManager.getMoney(player) - (cost * amount)) + "원", NamedTextColor.WHITE),
+                Component.text(MoneyManager.getMoney(player) + BackasSurvivalPackExtended.MONEY_UNIT, NamedTextColor.WHITE),
                 Component.text(")", NamedTextColor.GRAY))
         );
     }
@@ -123,7 +126,7 @@ public class EasyShopListener implements Listener {
                     Component.text(" (x" + itemStack.getAmount() + ") ", NamedTextColor.DARK_GRAY),
                     Component.text("을(를) ", NamedTextColor.GRAY),
                     Component.text(cost * itemStack.getAmount(), NamedTextColor.YELLOW),
-                    Component.text("원에 판매하였습니다.", NamedTextColor.GRAY)
+                    Component.text(BackasSurvivalPackExtended.MONEY_UNIT + "에 판매하였습니다.", NamedTextColor.GRAY)
             ));
         }
         boolean drop = false;
@@ -150,12 +153,19 @@ public class EasyShopListener implements Listener {
         player.sendMessage(Component.text().append(
                 Component.text("[판매완료] ", NamedTextColor.GREEN),
                 Component.text("수익", NamedTextColor.WHITE),
-                Component.text(" +" + (MoneyManager.getMoney(player) - oldMoney) + "원 ", NamedTextColor.YELLOW),
+                Component.text(" +" + (MoneyManager.getMoney(player) - oldMoney) + BackasSurvivalPackExtended.MONEY_UNIT + " ", NamedTextColor.YELLOW),
                 Component.text("(", NamedTextColor.GRAY),
-                Component.text(oldMoney + "원 ", NamedTextColor.DARK_GRAY),
+                Component.text(oldMoney + BackasSurvivalPackExtended.MONEY_UNIT + " ", NamedTextColor.DARK_GRAY),
                 Component.text("⮕ ", NamedTextColor.GRAY),
-                Component.text(MoneyManager.getMoney(player) + "원", NamedTextColor.WHITE),
+                Component.text(MoneyManager.getMoney(player) + BackasSurvivalPackExtended.MONEY_UNIT, NamedTextColor.WHITE),
                 Component.text(")", NamedTextColor.GRAY))
         );
+    }
+
+    @EventHandler
+    public void onShopListClick(InventoryClickEvent event) {
+        if (event.getView().title().equals(ShopListInventory.INVENTORY_NAME)) {
+            event.setCancelled(true);
+        }
     }
 }

@@ -1,5 +1,7 @@
 package kr.kro.backas.backassurvivalpackextended.easyshop.purchase;
 
+import kr.kro.backas.backassurvivalpackextended.BackasSurvivalPackExtended;
+import kr.kro.backas.backassurvivalpackextended.easyshop.Item;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -8,17 +10,24 @@ import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class EasyPurchaseInventory {
 
-    private static final Map<ItemStack, Integer> LIST_OF_ITEMS = new HashMap<>();
+    private static final LinkedHashMap<ItemStack, Integer> LIST_OF_ITEMS = new LinkedHashMap<>();
 
     static {
-        LIST_OF_ITEMS.put(new ItemStack(Material.DIAMOND), 10000);
+        LIST_OF_ITEMS.put(new ItemStack(Material.VILLAGER_SPAWN_EGG), 300000);
+        LIST_OF_ITEMS.put(new ItemStack(Material.MAGMA_CUBE_SPAWN_EGG), 300000);
+        LIST_OF_ITEMS.put(new ItemStack(Material.ZOMBIFIED_PIGLIN_SPAWN_EGG), 300000);
+        LIST_OF_ITEMS.put(new ItemStack(Material.WITHER_SKELETON_SKULL), 300000);
+        LIST_OF_ITEMS.put(new ItemStack(Material.END_CRYSTAL), 75000);
+        LIST_OF_ITEMS.put(new ItemStack(Material.NAME_TAG), 120000);
+        LIST_OF_ITEMS.put(new ItemStack(Material.LEAD), 50000);
+        LIST_OF_ITEMS.put(new ItemStack(Material.SLIME_BALL), 20000);
+        LIST_OF_ITEMS.put(new ItemStack(Material.ENCHANTED_GOLDEN_APPLE), 50000);
+        LIST_OF_ITEMS.put(Item.getHead(), 200000);
+        LIST_OF_ITEMS.put(Item.getTPCoolTimeClear(), 35000);
     }
 
     public static final Component INVENTORY_TITLE = Component.text("상점").decorate(TextDecoration.BOLD);
@@ -41,7 +50,7 @@ public class EasyPurchaseInventory {
                lore.add(Component.empty());
                lore.add(Component.text().append(
                        Component.text("가격: ", NamedTextColor.WHITE),
-                       Component.text(entry.getValue() + "원", NamedTextColor.YELLOW)
+                       Component.text(entry.getValue() + BackasSurvivalPackExtended.MONEY_UNIT, NamedTextColor.YELLOW)
                ).build().style(style -> style.decoration(TextDecoration.ITALIC, false)));
                lore.add(Component.empty());
                lore.add(Component.text("[좌클릭]", NamedTextColor.GREEN).append(

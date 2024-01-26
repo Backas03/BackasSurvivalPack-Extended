@@ -9,7 +9,7 @@ commands:
     aliases: [rank, 랭킹, 랭크, fodzm, fodzld, top]
   money:
     description: 돈을 송금하거나 확인합니다.
-    aliases: [돈, money, balance, bal, m, mny, ehs]
+    aliases: [돈, money, balance, bal, m, mny, ehs, 굥]
   money-admin:
     permission: op
     description: 돈을 관리합니다.
@@ -20,3 +20,11 @@ commands:
   shop:
     description: 상점을 엽니다.
     aliases: [상점, 상점열기, 상점열어, 상점열어줘, tkdwja, tkdwjadufrl]
+  item-admin:
+    permission: op.op
+  shop-list:
+    aliases: [판매목록, 판매리스트, shoplist]
+  tpa:
+  tpaccept:
+  tpadeny:
+  tpahere:

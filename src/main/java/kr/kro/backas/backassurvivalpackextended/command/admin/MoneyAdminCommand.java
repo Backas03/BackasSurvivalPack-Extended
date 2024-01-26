@@ -1,5 +1,6 @@
 package kr.kro.backas.backassurvivalpackextended.command.admin;
 
+import kr.kro.backas.backassurvivalpackextended.BackasSurvivalPackExtended;
 import kr.kro.backas.backassurvivalpackextended.MoneyManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -35,20 +36,20 @@ public class MoneyAdminCommand implements CommandExecutor {
         }
         if (args[0].equalsIgnoreCase("give")) {
             MoneyManager.addMoney(target, amount);
-            sender.sendMessage(Component.text("성공적으로 " + target.getName() + "님에게 " + amount + "원을 지급하였습니다.", NamedTextColor.GREEN));
-            target.sendMessage(Component.text("관리자로부터 " + amount + "원을 지급받았습니다.", NamedTextColor.GREEN));
+            sender.sendMessage(Component.text("성공적으로 " + target.getName() + "님에게 " + amount + BackasSurvivalPackExtended.MONEY_UNIT + "를 지급하였습니다.", NamedTextColor.GREEN));
+            target.sendMessage(Component.text("관리자로부터 " + amount + BackasSurvivalPackExtended.MONEY_UNIT + "을 지급받았습니다.", NamedTextColor.GREEN));
             return true;
         }
         if (args[0].equalsIgnoreCase("take")) {
             MoneyManager.removeMoney(target, amount);
-            sender.sendMessage(Component.text("성공적으로 " + target.getName() + "님의 " + amount + "원을 차감하였습니다.", NamedTextColor.GREEN));
-            target.sendMessage(Component.text("관리자가 당신의 돈을 " + amount + "원 차감하였습니다.", NamedTextColor.RED));
+            sender.sendMessage(Component.text("성공적으로 " + target.getName() + "님의 " + amount + BackasSurvivalPackExtended.MONEY_UNIT + "를 차감하였습니다.", NamedTextColor.GREEN));
+            target.sendMessage(Component.text("관리자가 당신의 돈을 " + amount + BackasSurvivalPackExtended.MONEY_UNIT + " 차감하였습니다.", NamedTextColor.RED));
             return true;
         }
         if (args[0].equalsIgnoreCase("set")) {
             MoneyManager.setMoney(target, amount);
-            sender.sendMessage(Component.text("성공적으로 " + target.getName() + "님의 돈을 " + amount + "원으로 설정하였습니다.", NamedTextColor.GREEN));
-            target.sendMessage(Component.text("관리자가 당신의 돈을 " + amount + "원으로 설정하였습니다.", NamedTextColor.YELLOW));
+            sender.sendMessage(Component.text("성공적으로 " + target.getName() + "님의 돈을 " + amount + BackasSurvivalPackExtended.MONEY_UNIT + "로 설정하였습니다.", NamedTextColor.GREEN));
+            target.sendMessage(Component.text("관리자가 당신의 돈을 " + amount + BackasSurvivalPackExtended.MONEY_UNIT + "로 설정하였습니다.", NamedTextColor.YELLOW));
             return true;
         }
         return false;

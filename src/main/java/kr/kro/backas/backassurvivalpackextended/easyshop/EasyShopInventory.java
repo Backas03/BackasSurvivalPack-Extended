@@ -7,16 +7,22 @@ import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class EasyShopInventory {
-    private static final Map<Material, Integer> COSTS = new HashMap<>();
+    public static final LinkedHashMap<Material, Integer> COSTS = new LinkedHashMap<>();
 
     static {
-        COSTS.put(Material.DIAMOND, 10000);
-        COSTS.put(Material.DIRT, 5);
-        COSTS.put(Material.GRASS_BLOCK, 5);
         COSTS.put(Material.NETHERITE_INGOT, 100000);
+        COSTS.put(Material.DIAMOND, 10000);
+        COSTS.put(Material.GRASS_BLOCK, 5);
+        COSTS.put(Material.DIRT, 5);
+        COSTS.put(Material.POTATO, 25);
+        COSTS.put(Material.POISONOUS_POTATO, 500);
+        COSTS.put(Material.CAKE, 2500);
+        COSTS.put(Material.CARROT, 27);
+        COSTS.put(Material.GOLDEN_CARROT, 42);
     }
 
     public static final Component INVENTORY_NAME = Component.text("판매하려는 아이템을 넣고 창을 닫아주세요")
