@@ -16,6 +16,8 @@ import kr.kro.backas.backassurvivalpackextended.user.UserManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -77,6 +79,13 @@ public final class BackasSurvivalPackExtended extends JavaPlugin {
         for (Player player : Bukkit.getOnlinePlayers()) {
             userManager.initUser(player);
         }
+
+        Bukkit.getScheduler().runTaskTimer(this, () -> {
+            Block chestBlock1 = Bukkit.getWorld("world_the_end").getBlockAt(303, 0, -1);
+            if (chestBlock1.getState() instanceof Chest chest1) {
+                chest1.getBlockInventory().clear();
+            }
+        }, 0, 20 * 5);
     }
 
     @Override

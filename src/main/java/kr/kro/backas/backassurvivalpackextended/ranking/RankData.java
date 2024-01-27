@@ -1,5 +1,6 @@
 package kr.kro.backas.backassurvivalpackextended.ranking;
 
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
 
@@ -9,7 +10,7 @@ public abstract class RankData<T> implements ConfigurationSerializable, Comparab
     private final UUID uniqueId;
     private final String playerName;
 
-    public RankData(Player player) {
+    public RankData(OfflinePlayer player) {
         this(player.getUniqueId(), player.getName());
     }
 

@@ -1,17 +1,18 @@
 package kr.kro.backas.backassurvivalpackextended.ranking.data;
 
 import kr.kro.backas.backassurvivalpackextended.ranking.RankData;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.UUID;
 
-public class IntegerRankData extends RankData<Integer> {
+public class IntegerRankData extends RankData<IntegerRankData> {
 
-    private final int amount;
+    private int amount;
 
-    public IntegerRankData(Player player, int amount) {
+    public IntegerRankData(OfflinePlayer player, int amount) {
         super(player);
         this.amount = amount;
     }
@@ -25,9 +26,13 @@ public class IntegerRankData extends RankData<Integer> {
         return amount;
     }
 
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
     @Override
-    public int compareTo(@NotNull Integer o) {
-        return Integer.compare(amount, o);
+    public int compareTo(@NotNull IntegerRankData o) {
+        return Integer.compare(o.amount, amount);
     }
 
     @Override

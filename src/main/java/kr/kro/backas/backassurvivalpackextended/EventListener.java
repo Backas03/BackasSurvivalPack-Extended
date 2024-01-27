@@ -3,15 +3,13 @@ package kr.kro.backas.backassurvivalpackextended;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityChangeBlockEvent;
-import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.entity.EntitySpawnEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 
 public class EventListener implements Listener {
@@ -57,5 +55,10 @@ public class EventListener implements Listener {
             Entity clicked = event.getRightClicked();
             clicked.addPassenger(player);
         }
+    }
+
+    @EventHandler
+    public void onEntityDeath(EntityDeathEvent event) {
+        event.getDrops().removeIf(item -> item.getType() == Material.GOLDEN_SWORD);
     }
 }

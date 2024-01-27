@@ -17,10 +17,10 @@ public class EasyPurchaseInventory {
     private static final LinkedHashMap<ItemStack, Integer> LIST_OF_ITEMS = new LinkedHashMap<>();
 
     static {
-        LIST_OF_ITEMS.put(new ItemStack(Material.VILLAGER_SPAWN_EGG), 300000);
-        LIST_OF_ITEMS.put(new ItemStack(Material.MAGMA_CUBE_SPAWN_EGG), 300000);
-        LIST_OF_ITEMS.put(new ItemStack(Material.ZOMBIFIED_PIGLIN_SPAWN_EGG), 300000);
-        LIST_OF_ITEMS.put(new ItemStack(Material.WITHER_SKELETON_SKULL), 300000);
+        LIST_OF_ITEMS.put(new ItemStack(Material.VILLAGER_SPAWN_EGG), 150000);
+        LIST_OF_ITEMS.put(new ItemStack(Material.MAGMA_CUBE_SPAWN_EGG), 150000);
+        LIST_OF_ITEMS.put(new ItemStack(Material.ZOMBIFIED_PIGLIN_SPAWN_EGG), 150000);
+        LIST_OF_ITEMS.put(new ItemStack(Material.WITHER_SKELETON_SKULL), 150000);
         LIST_OF_ITEMS.put(new ItemStack(Material.END_CRYSTAL), 75000);
         LIST_OF_ITEMS.put(new ItemStack(Material.NAME_TAG), 120000);
         LIST_OF_ITEMS.put(new ItemStack(Material.LEAD), 50000);
