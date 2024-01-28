@@ -23,7 +23,7 @@ dependencies {
 
 task copyJar(type: Copy) {
     from jar
-    into 'C:\\build'
+    into 'C:\\server\\uniforest\\plugins'
 }
 
 def targetJavaVersion = 17

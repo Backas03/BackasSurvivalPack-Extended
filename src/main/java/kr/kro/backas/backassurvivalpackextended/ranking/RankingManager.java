@@ -1,9 +1,7 @@
 package kr.kro.backas.backassurvivalpackextended.ranking;
 
 import kr.kro.backas.backassurvivalpackextended.BackasSurvivalPackExtended;
-import kr.kro.backas.backassurvivalpackextended.ranking.model.DeathRanking;
-import kr.kro.backas.backassurvivalpackextended.ranking.model.MoneyRanking;
-import kr.kro.backas.backassurvivalpackextended.ranking.model.PlayTimeRanking;
+import kr.kro.backas.backassurvivalpackextended.ranking.model.*;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.Nullable;
@@ -21,6 +19,9 @@ public class RankingManager {
         registerRanking(new MoneyRanking());
         registerRanking(new DeathRanking());
         registerRanking(new PlayTimeRanking());
+        registerRanking(new DamageRanking());
+        registerRanking(new HuntRanking());
+        registerRanking(new PlayerKillRanking());
     }
 
     public void registerRanking(AbstractRanking<?> ranking) {
