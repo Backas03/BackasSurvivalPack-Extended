@@ -18,18 +18,28 @@ public class EasyShopInventory {
         COSTS.put(Material.DIAMOND, 10000);
         COSTS.put(Material.GRASS_BLOCK, 5);
         COSTS.put(Material.DIRT, 5);
+        COSTS.put(Material.COBBLESTONE, 5);
+        COSTS.put(Material.STONE, 5);
+        COSTS.put(Material.DEEPSLATE, 5);
+        COSTS.put(Material.COBBLED_DEEPSLATE, 5);
         COSTS.put(Material.POTATO, 25);
         COSTS.put(Material.POISONOUS_POTATO, 500);
         COSTS.put(Material.CAKE, 2500);
         COSTS.put(Material.CARROT, 27);
         COSTS.put(Material.GOLDEN_CARROT, 42);
+        COSTS.put(Material.WHEAT, 70);
+        COSTS.put(Material.BEETROOT, 70);
+        COSTS.put(Material.ROTTEN_FLESH, 2);
+        COSTS.put(Material.SADDLE, 1000);
+        COSTS.put(Material.TOTEM_OF_UNDYING, 500);
+        COSTS.put(Material.SUSPICIOUS_STEW, 1250);
     }
 
     public static final Component INVENTORY_NAME = Component.text("판매하려는 아이템을 넣고 창을 닫아주세요")
             .decorate(TextDecoration.BOLD);
 
     public static Inventory newInventory() {
-        return Bukkit.createInventory(null, 9, INVENTORY_NAME);
+        return Bukkit.createInventory(null, 27, INVENTORY_NAME);
     }
 
     public static int getCost(Material material) {

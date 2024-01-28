@@ -112,8 +112,9 @@ public class PlayTimeRanking extends AbstractRanking<IntegerRankData> {
         int minute = (totalSeconds / 60) % 60;
         int hours = (totalSeconds / 3600) % 24;
         int days = (totalSeconds / 3600) / 24;
+        if (days == 0 && hours == 0 && minute == 0) return seconds + "초";
+        if (days == 0 && hours == 0) return minute + "분 " + seconds + "초";
         if (days == 0) return hours + "시간 " + minute + "분 " + seconds + "초";
-        else if (hours == 0) return minute + "분 " + seconds + "초";
         return days + "일 " + hours + "시간 " + minute + "분 " + seconds + "초";
     }
 
