@@ -20,14 +20,23 @@ public class EasyPurchaseInventory {
         LIST_OF_ITEMS.put(new ItemStack(Material.VILLAGER_SPAWN_EGG), 150000);
         LIST_OF_ITEMS.put(new ItemStack(Material.MAGMA_CUBE_SPAWN_EGG), 150000);
         LIST_OF_ITEMS.put(new ItemStack(Material.ZOMBIFIED_PIGLIN_SPAWN_EGG), 150000);
+        LIST_OF_ITEMS.put(new ItemStack(Material.HOGLIN_SPAWN_EGG), 150000);
         LIST_OF_ITEMS.put(new ItemStack(Material.WOLF_SPAWN_EGG), 150000);
+        LIST_OF_ITEMS.put(new ItemStack(Material.SHEEP_SPAWN_EGG), 150000);
         LIST_OF_ITEMS.put(new ItemStack(Material.MOOSHROOM_SPAWN_EGG), 150000);
         LIST_OF_ITEMS.put(new ItemStack(Material.WITHER_SKELETON_SKULL), 150000);
         LIST_OF_ITEMS.put(new ItemStack(Material.END_CRYSTAL), 75000);
         LIST_OF_ITEMS.put(new ItemStack(Material.NAME_TAG), 120000);
+        LIST_OF_ITEMS.put(new ItemStack(Material.RABBIT_FOOT), 5000);
         LIST_OF_ITEMS.put(new ItemStack(Material.LEAD), 10000);
         LIST_OF_ITEMS.put(new ItemStack(Material.SLIME_BALL), 20000);
+        LIST_OF_ITEMS.put(new ItemStack(Material.MAGMA_CREAM), 15000);
+        LIST_OF_ITEMS.put(new ItemStack(Material.SHULKER_SHELL), 50000);
+        LIST_OF_ITEMS.put(new ItemStack(Material.PHANTOM_MEMBRANE), 15000);
         LIST_OF_ITEMS.put(new ItemStack(Material.ENCHANTED_GOLDEN_APPLE), 25000);
+        LIST_OF_ITEMS.put(new ItemStack(Material.OCHRE_FROGLIGHT), 2000);
+        LIST_OF_ITEMS.put(new ItemStack(Material.VERDANT_FROGLIGHT), 2000);
+        LIST_OF_ITEMS.put(new ItemStack(Material.PEARLESCENT_FROGLIGHT), 2000);
         LIST_OF_ITEMS.put(Item.getHead(), 200000);
         LIST_OF_ITEMS.put(Item.getTPCoolTimeClear(), 10000);
     }
