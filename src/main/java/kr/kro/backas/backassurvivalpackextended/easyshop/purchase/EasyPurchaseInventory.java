@@ -30,6 +30,7 @@ public class EasyPurchaseInventory {
         LIST_OF_ITEMS.put(new ItemStack(Material.RABBIT_FOOT), 5000);
         LIST_OF_ITEMS.put(new ItemStack(Material.LEAD), 10000);
         LIST_OF_ITEMS.put(new ItemStack(Material.SLIME_BALL), 20000);
+        LIST_OF_ITEMS.put(new ItemStack(Material.GHAST_TEAR), 10000);
         LIST_OF_ITEMS.put(new ItemStack(Material.MAGMA_CREAM), 15000);
         LIST_OF_ITEMS.put(new ItemStack(Material.SHULKER_SHELL), 50000);
         LIST_OF_ITEMS.put(new ItemStack(Material.PHANTOM_MEMBRANE), 15000);
