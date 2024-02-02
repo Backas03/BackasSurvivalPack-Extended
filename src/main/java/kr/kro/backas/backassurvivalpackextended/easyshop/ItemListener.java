@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
@@ -38,6 +39,13 @@ public class ItemListener implements Listener {
             }
             item.setAmount(item.getAmount() - 1);
             giveSkullItem(event.getPlayer(), event.getPlayer());
+        }
+    }
+
+    @EventHandler
+    public void onItemDamage(PlayerItemDamageEvent event) {
+        if (Item.getHead().isSimilar(event.getItem())) {
+            event.setCancelled(true);
         }
     }
 
