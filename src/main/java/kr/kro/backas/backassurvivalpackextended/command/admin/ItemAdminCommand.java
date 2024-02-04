@@ -1,6 +1,6 @@
 package kr.kro.backas.backassurvivalpackextended.command.admin;
 
-import kr.kro.backas.backassurvivalpackextended.easyshop.Item;
+import kr.kro.backas.backassurvivalpackextended.easyshop.ItemFactory;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,11 +17,11 @@ public class ItemAdminCommand implements CommandExecutor {
             return true;
         }
         if (strings[0].equalsIgnoreCase("head")) {
-            player.getInventory().addItem(Item.getHead());
+            player.getInventory().addItem(ItemFactory.getHead());
             return true;
         }
         if (strings[0].equalsIgnoreCase("tp")) {
-            player.getInventory().addItem(Item.getTPCoolTimeClear());
+            player.getInventory().addItem(ItemFactory.getTPCoolTimeClear());
             return true;
         }
         return false;

@@ -23,7 +23,7 @@ public class ItemListener implements Listener {
             return;
         }
         ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
-        if (Item.getHead().isSimilar(item)) {
+        if (ItemFactory.getHead().isSimilar(item)) {
             item.setAmount(item.getAmount() - 1);
             giveSkullItem(event.getPlayer(), target);
         }
@@ -32,7 +32,7 @@ public class ItemListener implements Listener {
     @EventHandler
     public void onClick(PlayerInteractEvent event) {
         ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
-        if (Item.getHead().isSimilar(item)) {
+        if (ItemFactory.getHead().isSimilar(item)) {
             event.setCancelled(true);
             if (!event.getPlayer().isSneaking()) {
                 return;
@@ -44,7 +44,7 @@ public class ItemListener implements Listener {
 
     @EventHandler
     public void onItemDamage(PlayerItemDamageEvent event) {
-        if (Item.getHead().isSimilar(event.getItem())) {
+        if (ItemFactory.getHead().isSimilar(event.getItem())) {
             event.setCancelled(true);
         }
     }
@@ -52,7 +52,7 @@ public class ItemListener implements Listener {
     @EventHandler
     public void onTPClick(PlayerInteractEvent event) {
         ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
-        if (Item.getTPCoolTimeClear().isSimilar(item)) {
+        if (ItemFactory.getTPCoolTimeClear().isSimilar(item)) {
             event.setCancelled(true);
             item.setAmount(item.getAmount() - 1);
             BackasSurvivalPackExtended.getTeleportManager()

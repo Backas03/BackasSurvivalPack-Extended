@@ -1,7 +1,7 @@
 package kr.kro.backas.backassurvivalpackextended.easyshop.purchase;
 
 import kr.kro.backas.backassurvivalpackextended.BackasSurvivalPackExtended;
-import kr.kro.backas.backassurvivalpackextended.easyshop.Item;
+import kr.kro.backas.backassurvivalpackextended.easyshop.ItemFactory;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -38,8 +38,8 @@ public class EasyPurchaseInventory {
         LIST_OF_ITEMS.put(new ItemStack(Material.OCHRE_FROGLIGHT), 2000);
         LIST_OF_ITEMS.put(new ItemStack(Material.VERDANT_FROGLIGHT), 2000);
         LIST_OF_ITEMS.put(new ItemStack(Material.PEARLESCENT_FROGLIGHT), 2000);
-        LIST_OF_ITEMS.put(Item.getHead(), 200000);
-        LIST_OF_ITEMS.put(Item.getTPCoolTimeClear(), 10000);
+        LIST_OF_ITEMS.put(ItemFactory.getHead(), 200000);
+        LIST_OF_ITEMS.put(ItemFactory.getTPCoolTimeClear(), 10000);
     }
 
     public static final Component INVENTORY_TITLE = Component.text("상점").decorate(TextDecoration.BOLD);

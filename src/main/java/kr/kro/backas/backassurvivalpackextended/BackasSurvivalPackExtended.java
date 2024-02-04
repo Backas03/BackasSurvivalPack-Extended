@@ -80,6 +80,8 @@ public final class BackasSurvivalPackExtended extends JavaPlugin {
             userManager.initUser(player);
         }
 
+
+        // 엔더월드 경험치팜 상자 자동으로 비우는 놈
         Bukkit.getScheduler().runTaskTimer(this, () -> {
             Block chestBlock1 = Bukkit.getWorld("world_the_end").getBlockAt(303, 0, -1);
             if (chestBlock1.getState() instanceof Chest chest1) {

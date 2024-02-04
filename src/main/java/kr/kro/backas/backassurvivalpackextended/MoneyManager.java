@@ -7,7 +7,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-public class MoneyManager {
+public final class MoneyManager {
     public static int getMoney(Player player) {
         return getUserDataMoney(player).getAmount();
     }

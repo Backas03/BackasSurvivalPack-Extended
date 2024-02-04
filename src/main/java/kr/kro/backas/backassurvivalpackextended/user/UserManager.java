@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class UserManager {
+public final class UserManager {
     private final Map<UUID, User> loadedUsers;
 
     public UserManager() {

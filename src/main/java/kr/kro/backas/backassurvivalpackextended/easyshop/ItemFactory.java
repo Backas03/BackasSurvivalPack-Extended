@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Item {
+public final class ItemFactory {
     public static ItemStack getHead() {
         ItemStack item = new ItemStack(Material.IRON_HOE);
         item.editMeta(itemMeta -> {

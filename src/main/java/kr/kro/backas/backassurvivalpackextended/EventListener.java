@@ -14,6 +14,8 @@ import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 
 public class EventListener implements Listener {
 
+
+    // 팬텀 스폰 방지
     @EventHandler
     public void onSpawn(EntitySpawnEvent event) {
         if (event.getEntityType() == EntityType.PHANTOM) {
@@ -21,6 +23,7 @@ public class EventListener implements Listener {
         }
     }
 
+    // 크리퍼 폭파 방지
     @EventHandler
     public void onExplode(EntityExplodeEvent event) {
         if (event.getEntityType() == EntityType.CREEPER) {
@@ -28,6 +31,8 @@ public class EventListener implements Listener {
         }
     }
 
+
+    // 엔더맨 블럭 드는 거 방지
     @EventHandler
     public void onEndermanHoldBlock(EntityChangeBlockEvent event) {
         if (event.getEntityType() == EntityType.ENDERMAN) {
@@ -37,6 +42,7 @@ public class EventListener implements Listener {
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
+        // 마지막 죽은자리 좌표 띄우기
         Location location = event.getPlayer().getLocation();
         event.getPlayer()
                 .sendMessage(Component.text("마지막 죽은 자리 좌표: " + String.format(
@@ -49,16 +55,8 @@ public class EventListener implements Listener {
     }
 
     @EventHandler
-    public void onEntityInteract(PlayerInteractAtEntityEvent event) {
-        Player player = event.getPlayer();
-        if (player.isOp() && !player.isSneaking()) {
-            Entity clicked = event.getRightClicked();
-            clicked.addPassenger(player);
-        }
-    }
-
-    @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
+        // 금 검 드랍 금지
         event.getDrops().removeIf(item -> item.getType() == Material.GOLDEN_SWORD);
     }
 }
