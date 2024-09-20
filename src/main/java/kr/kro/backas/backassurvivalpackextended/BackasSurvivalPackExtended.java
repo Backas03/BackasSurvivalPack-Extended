@@ -5,6 +5,7 @@ import kr.kro.backas.backassurvivalpackextended.command.admin.ItemAdminCommand;
 import kr.kro.backas.backassurvivalpackextended.command.admin.MoneyAdminCommand;
 import kr.kro.backas.backassurvivalpackextended.easyshop.EasyShopListener;
 import kr.kro.backas.backassurvivalpackextended.easyshop.ItemListener;
+import kr.kro.backas.backassurvivalpackextended.easywarp.EasyWarpListener;
 import kr.kro.backas.backassurvivalpackextended.ranking.RankingManager;
 import kr.kro.backas.backassurvivalpackextended.teleport.TeleportManager;
 import kr.kro.backas.backassurvivalpackextended.teleport.command.TPACommand;
@@ -44,7 +45,7 @@ public final class BackasSurvivalPackExtended extends JavaPlugin {
         return teleportManager;
     }
 
-    public static String MONEY_UNIT = " 굥";
+    public static String MONEY_UNIT = " 원";
 
 
     public BackasSurvivalPackExtended() {
@@ -62,6 +63,7 @@ public final class BackasSurvivalPackExtended extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EasyShopListener(), this);
         getServer().getPluginManager().registerEvents(new ItemListener(), this);
         getServer().getPluginManager().registerEvents(new EventListener(), this);
+        getServer().getPluginManager().registerEvents(new EasyWarpListener(), this);
 
         getCommand("ranking").setExecutor(new RankingCommand());
         getCommand("money").setExecutor(new MoneyCommand());
@@ -76,6 +78,8 @@ public final class BackasSurvivalPackExtended extends JavaPlugin {
         getCommand("tpadeny").setExecutor(new TPADenyCommand());
         getCommand("tpahere").setExecutor(new TPAHereCommand());
 
+        getCommand("warp").setExecutor(new EasyWarpCommand());
+
         for (Player player : Bukkit.getOnlinePlayers()) {
             userManager.initUser(player);
         }
@@ -83,11 +87,12 @@ public final class BackasSurvivalPackExtended extends JavaPlugin {
 
         // 엔더월드 경험치팜 상자 자동으로 비우는 놈
         Bukkit.getScheduler().runTaskTimer(this, () -> {
-            Block chestBlock1 = Bukkit.getWorld("world_the_end").getBlockAt(303, 0, -1);
+            Block chestBlock1 = Bukkit.getWorld("world_the_end").getBlockAt(254, 48, 0);
             if (chestBlock1.getState() instanceof Chest chest1) {
                 chest1.getBlockInventory().clear();
             }
         }, 0, 20 * 5);
+
     }
 
     @Override
