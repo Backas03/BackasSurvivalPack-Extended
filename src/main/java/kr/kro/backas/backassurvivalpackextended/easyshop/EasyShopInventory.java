@@ -33,6 +33,7 @@ public class EasyShopInventory {
         COSTS.put(Material.SADDLE, 1000);
         COSTS.put(Material.TOTEM_OF_UNDYING, 500);
         COSTS.put(Material.SUSPICIOUS_STEW, 1250);
+        COSTS.put(Material.COOKIE, 20);
     }
 
     public static final Component INVENTORY_NAME = Component.text("판매하려는 아이템을 넣고 창을 닫아주세요")
