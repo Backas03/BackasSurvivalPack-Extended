@@ -4,12 +4,15 @@ main: kr.kro.backas.backassurvivalpackextended.BackasSurvivalPackExtended
 api-version: 1.20
 
 commands:
+  warp:
+    description: 워프를 이용합니다.
+    aliases: [워프, warps, dnjvm]
   ranking:
     description: 랭킹을 확인합니다.
     aliases: [rank, 랭킹, 랭크, fodzm, fodzld, top]
   money:
     description: 돈을 송금하거나 확인합니다.
-    aliases: [돈, money, balance, bal, m, mny, ehs, 굥]
+    aliases: [돈, money, balance, bal, m, mny, ehs]
   money-admin:
     permission: op
     description: 돈을 관리합니다.
