@@ -9,8 +9,11 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 public class EventListener implements Listener {
 
@@ -36,6 +39,14 @@ public class EventListener implements Listener {
         if (event.getEntityType() == EntityType.CREEPER) {
             event.blockList().clear();
         }
+    }
+
+    // 경작지 파괴 방지
+    @EventHandler
+    public void noUproot(PlayerInteractEvent event) {
+        if (event.getClickedBlock() == null) return;
+        if (event.getAction() == Action.PHYSICAL && event.getClickedBlock().getType() == Material.FARMLAND)
+            event.setCancelled(true);
     }
 
 
