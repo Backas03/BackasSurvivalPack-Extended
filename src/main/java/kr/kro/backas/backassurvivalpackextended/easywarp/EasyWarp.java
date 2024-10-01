@@ -21,15 +21,15 @@ public class EasyWarp {
     public static final LinkedHashMap<String, Node> WARPS = new LinkedHashMap<>();
     public static final Component INVENTORY_TITLE = Component.text("워프 목록")
             .decorate(TextDecoration.BOLD);
-    public static final int COST = 10000;
+    public static final int COST = 0;
 
     static {
         WARPS.put("home", new Node(
-                Component.text("집", NamedTextColor.GREEN),
+                Component.text("스폰", NamedTextColor.GREEN),
                 new ItemStack(Material.GRASS_BLOCK),
-                new Location(Bukkit.getWorld("world"), 80.5, 63, -2496.5, 90, 0))
+                new Location(Bukkit.getWorld("world"), 0, 69, -0, 90, 0))
         );
-        WARPS.put("ender-farm", new Node(
+        /*WARPS.put("ender-farm", new Node(
                 Component.text("엔더팜", NamedTextColor.AQUA),
                 new ItemStack(Material.EXPERIENCE_BOTTLE),
                 new Location(Bukkit.getWorld("world_the_end"), 250, 49, 0.5, -90 ,0))
@@ -49,6 +49,13 @@ public class EasyWarp {
                 new ItemStack(Material.GUNPOWDER),
                 new Location(Bukkit.getWorld("world"), -400, 63, -2439, 90, 0))
         );
+        WARPS.put("warden", new Node(
+                Component.text("고대 도시", NamedTextColor.GRAY),
+                new ItemStack(Material.SCULK_CATALYST),
+                new Location(Bukkit.getWorld("world"), 5425, -45, 127))
+        );
+
+         */
     }
 
     public static final class Node {

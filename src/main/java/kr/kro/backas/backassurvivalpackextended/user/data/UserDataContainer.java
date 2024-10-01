@@ -4,6 +4,7 @@ import kr.kro.backas.backassurvivalpackextended.BackasSurvivalPackExtended;
 import kr.kro.backas.backassurvivalpackextended.api.UserDataPreLoadDoneEvent;
 import kr.kro.backas.backassurvivalpackextended.user.User;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataMoney;
+import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataMoneyUse;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.slf4j.Logger;
@@ -21,7 +22,8 @@ import java.util.concurrent.CompletableFuture;
 public class UserDataContainer {
 
     public static final Set<Class<? extends UserData>> EARLY_LOADS = Set.of(
-            UserDataMoney.class
+            UserDataMoney.class,
+            UserDataMoneyUse.class
     );
 
     public static final Logger LOGGER = LoggerFactory.getLogger(UserDataContainer.class);
@@ -69,7 +71,10 @@ public class UserDataContainer {
 
     public <T extends UserData> T getOrLoad(Class<T> userDataClass) {
         T userData = get(userDataClass);
-        if (userData != null) return userData;
+        if (userData != null) {
+            Bukkit.getLogger().info("유저 데이터를 불러왔습니다. userDataClass" + userDataClass);
+            return userData;
+        }
 
         userData = fetch(userDataClass);
         userDataMap.put(userDataClass, userData);
@@ -77,8 +82,11 @@ public class UserDataContainer {
     }
 
     public <T extends UserData> T get(Class<T> userDataClass) {
+        if (userDataMap.containsKey(userDataClass)) {
+            return userDataClass.cast(userDataMap.get(userDataClass));
+        }
         // 로드된 데이터 없으면 null 반환
-        return userDataClass.cast(userDataMap.get(userDataClass));
+        return null;
     }
 
     public <T extends UserData> boolean save(Class<T> userDataClass) {

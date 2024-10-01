@@ -25,6 +25,7 @@ public class EasyPurchaseInventory {
         LIST_OF_ITEMS.put(new ItemStack(Material.SHEEP_SPAWN_EGG), 150000);
         LIST_OF_ITEMS.put(new ItemStack(Material.MOOSHROOM_SPAWN_EGG), 150000);
         LIST_OF_ITEMS.put(new ItemStack(Material.COW_SPAWN_EGG), 150000);
+        LIST_OF_ITEMS.put(new ItemStack(Material.ZOMBIE_SPAWN_EGG), 150000);
         LIST_OF_ITEMS.put(new ItemStack(Material.WITHER_SKELETON_SKULL), 150000);
         LIST_OF_ITEMS.put(new ItemStack(Material.END_CRYSTAL), 75000);
         LIST_OF_ITEMS.put(new ItemStack(Material.NAME_TAG), 120000);

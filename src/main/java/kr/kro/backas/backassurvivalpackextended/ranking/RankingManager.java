@@ -22,6 +22,7 @@ public class RankingManager {
         registerRanking(new DamageRanking());
         registerRanking(new HuntRanking());
         registerRanking(new PlayerKillRanking());
+        registerRanking(new MoneyUseRanking());
     }
 
     public void registerRanking(AbstractRanking<?> ranking) {

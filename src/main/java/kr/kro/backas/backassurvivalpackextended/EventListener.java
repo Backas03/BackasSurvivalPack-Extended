@@ -14,6 +14,13 @@ import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 
 public class EventListener implements Listener {
 
+    @EventHandler
+    public void onClick(PlayerInteractAtEntityEvent event) {
+        Player player = event.getPlayer();
+        Entity entity = event.getRightClicked();
+        if (entity.getType() != EntityType.PLAYER) return;
+        entity.addPassenger(player);
+    }
 
     // 팬텀 스폰 방지
     @EventHandler
@@ -57,6 +64,6 @@ public class EventListener implements Listener {
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
         // 금 검 드랍 금지
-        event.getDrops().removeIf(item -> item.getType() == Material.GOLDEN_SWORD);
+        //event.getDrops().removeIf(item -> item.getType() == Material.GOLDEN_SWORD);
     }
 }

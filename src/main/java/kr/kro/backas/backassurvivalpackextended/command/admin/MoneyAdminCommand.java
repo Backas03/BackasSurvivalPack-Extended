@@ -41,7 +41,8 @@ public class MoneyAdminCommand implements CommandExecutor {
             return true;
         }
         if (args[0].equalsIgnoreCase("take")) {
-            MoneyManager.removeMoney(target, amount);
+            MoneyManager.removeMoney(target, amount, false
+            );
             sender.sendMessage(Component.text("성공적으로 " + target.getName() + "님의 " + amount + BackasSurvivalPackExtended.MONEY_UNIT + "를 차감하였습니다.", NamedTextColor.GREEN));
             target.sendMessage(Component.text("관리자가 당신의 돈을 " + amount + BackasSurvivalPackExtended.MONEY_UNIT + " 차감하였습니다.", NamedTextColor.RED));
             return true;

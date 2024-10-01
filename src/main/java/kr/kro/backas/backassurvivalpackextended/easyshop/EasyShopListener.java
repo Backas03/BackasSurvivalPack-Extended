@@ -79,7 +79,7 @@ public class EasyShopListener implements Listener {
 
         int oldMoney = MoneyManager.getMoney(player);
 
-        MoneyManager.removeMoney(player, cost * amount);
+        MoneyManager.removeMoney(player, cost * amount, true);
         player.sendMessage(Component.text().append(
                 Component.text("[구매완료] ", NamedTextColor.GREEN),
                 Component.translatable(item.translationKey()).color(NamedTextColor.WHITE).decorate(TextDecoration.BOLD),

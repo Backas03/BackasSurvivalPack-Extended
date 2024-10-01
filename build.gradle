@@ -23,7 +23,7 @@ dependencies {
 
 task copyJar(type: Copy) {
     from jar
-    into 'C:\\server\\uniforest\\plugins'
+    into 'C:\\Users\\wkgus\\OneDrive\\바탕 화면\\1.21.1-a\\plugins'
 }
 
 def targetJavaVersion = 17
