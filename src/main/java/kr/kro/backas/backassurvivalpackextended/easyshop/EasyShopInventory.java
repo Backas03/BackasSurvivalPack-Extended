@@ -31,7 +31,7 @@ public class EasyShopInventory {
         COSTS.put(Material.BEETROOT, 70);
         COSTS.put(Material.PUMPKIN, 36);
         COSTS.put(Material.MELON, 36);
-        COSTS.put(Material.MELON_SLICE, 6);
+        COSTS.put(Material.MELON_SLICE, 5);
         COSTS.put(Material.ROTTEN_FLESH, 2);
         COSTS.put(Material.SADDLE, 1000);
         COSTS.put(Material.TOTEM_OF_UNDYING, 500);
