@@ -72,7 +72,6 @@ public class UserDataContainer {
     public <T extends UserData> T getOrLoad(Class<T> userDataClass) {
         T userData = get(userDataClass);
         if (userData != null) {
-            Bukkit.getLogger().info("유저 데이터를 불러왔습니다. userDataClass" + userDataClass);
             return userData;
         }
 
@@ -82,11 +81,8 @@ public class UserDataContainer {
     }
 
     public <T extends UserData> T get(Class<T> userDataClass) {
-        if (userDataMap.containsKey(userDataClass)) {
-            return userDataClass.cast(userDataMap.get(userDataClass));
-        }
         // 로드된 데이터 없으면 null 반환
-        return null;
+        return userDataClass.cast(userDataMap.get(userDataClass));
     }
 
     public <T extends UserData> boolean save(Class<T> userDataClass) {
