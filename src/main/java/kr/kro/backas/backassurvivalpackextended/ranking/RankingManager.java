@@ -4,29 +4,47 @@ import kr.kro.backas.backassurvivalpackextended.BackasSurvivalPackExtended;
 import kr.kro.backas.backassurvivalpackextended.ranking.model.*;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
+import org.bukkit.event.Listener;
 import org.jetbrains.annotations.Nullable;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 public class RankingManager {
-    private final Map<Class<?>, AbstractRanking<?>> registeredRankings;
+    public static final long UPDATE_INTERVAL = 20 * 60 * 5L;
+
+    private Map<Class<?>, AbstractRanking<?>> registeredRankings;
+    private LocalDateTime lastUpdate;
 
     public RankingManager() {
         registeredRankings = new HashMap<>();
 
-        registerRanking(new MoneyRanking());
-        registerRanking(new DeathRanking());
-        registerRanking(new PlayTimeRanking());
-        registerRanking(new DamageRanking());
-        registerRanking(new HuntRanking());
-        registerRanking(new PlayerKillRanking());
-        registerRanking(new MoneyUseRanking());
+        update(true);
+
+        Bukkit.getScheduler().runTaskTimerAsynchronously(BackasSurvivalPackExtended.getInstance(),
+                () -> update(false),
+                UPDATE_INTERVAL, UPDATE_INTERVAL);
     }
 
-    public void registerRanking(AbstractRanking<?> ranking) {
-        if (ranking.getUpdateListener() != null)
+    public void update(boolean registerListener) {
+        registeredRankings = new HashMap<>();
+
+        registerRanking(new MoneyRanking(), registerListener);
+        registerRanking(new DeathRanking(), registerListener);
+        registerRanking(new PlayTimeRanking(), registerListener);
+        registerRanking(new DamageRanking(), registerListener);
+        registerRanking(new HuntRanking(), registerListener);
+        registerRanking(new PlayerKillRanking(), registerListener);
+        registerRanking(new MoneyUseRanking(), registerListener);
+
+        lastUpdate = LocalDateTime.now();
+    }
+
+    public void registerRanking(AbstractRanking<?> ranking, boolean registerListener) {
+        registeredRankings.remove(ranking.getClass());
+        if (ranking.getUpdateListener() != null && registerListener)
             Bukkit.getPluginManager().registerEvents(ranking.getUpdateListener(), BackasSurvivalPackExtended.getInstance());
         registeredRankings.put(ranking.getClass(), ranking);
     }
@@ -45,5 +63,13 @@ public class RankingManager {
 
     public Collection<AbstractRanking<?>> getAllRankings() {
         return registeredRankings.values();
+    }
+
+    public LocalDateTime getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdateToNow() {
+        this.lastUpdate = LocalDateTime.now();
     }
 }

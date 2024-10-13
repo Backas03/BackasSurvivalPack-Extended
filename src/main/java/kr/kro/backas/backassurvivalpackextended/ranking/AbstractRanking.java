@@ -18,7 +18,7 @@ public abstract class AbstractRanking<T extends RankData<?>> {
     public abstract void send(Player player, int displayAmount, int page);
     protected abstract void load();
 
-    protected final TreeSet<T> ranks;
+    protected TreeSet<T> ranks;
 
     protected AbstractRanking() {
         this.ranks = new TreeSet<>();

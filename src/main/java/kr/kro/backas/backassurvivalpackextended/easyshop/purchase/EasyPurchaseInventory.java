@@ -41,6 +41,7 @@ public class EasyPurchaseInventory {
         LIST_OF_ITEMS.put(new ItemStack(Material.VERDANT_FROGLIGHT), 2000);
         LIST_OF_ITEMS.put(new ItemStack(Material.PEARLESCENT_FROGLIGHT), 2000);
         LIST_OF_ITEMS.put(new ItemStack(Material.DIAMOND), 20000);
+        LIST_OF_ITEMS.put(new ItemStack(Material.FIREWORK_ROCKET), 75);
         LIST_OF_ITEMS.put(new ItemStack(Material.NETHERITE_INGOT), 300000);
         LIST_OF_ITEMS.put(new ItemStack(Material.ELYTRA), 1250000);
         LIST_OF_ITEMS.put(ItemFactory.getHead(), 200000);

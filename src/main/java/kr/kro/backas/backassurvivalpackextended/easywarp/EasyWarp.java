@@ -27,7 +27,7 @@ public class EasyWarp {
         WARPS.put("home", new Node(
                 Component.text("스폰", NamedTextColor.GREEN),
                 new ItemStack(Material.GRASS_BLOCK),
-                new Location(Bukkit.getWorld("world"), 0, 69, -0, 90, 0))
+                new Location(Bukkit.getWorld("world"), 0, 70, -0, 90, 0))
         );
         /*WARPS.put("ender-farm", new Node(
                 Component.text("엔더팜", NamedTextColor.AQUA),

@@ -29,7 +29,6 @@ public class HuntRanking extends AbstractRanking<IntegerRankData> {
 
     @Override
     public void send(Player player, int displayAmount, int page) {
-        load();
         if (displayAmount < 1) displayAmount = 1;
 
         int maxPage = (int) Math.ceil((double) ranks.size() / displayAmount);

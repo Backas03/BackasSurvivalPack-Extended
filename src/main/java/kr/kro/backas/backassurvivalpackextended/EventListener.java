@@ -21,7 +21,7 @@ public class EventListener implements Listener {
     public void onClick(PlayerInteractAtEntityEvent event) {
         Player player = event.getPlayer();
         Entity entity = event.getRightClicked();
-        if (entity.getType() != EntityType.PLAYER) return;
+        if (entity.getType() != EntityType.PLAYER || !entity.isSneaking()) return;
         entity.addPassenger(player);
     }
 

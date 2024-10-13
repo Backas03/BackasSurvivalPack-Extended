@@ -1,8 +1,6 @@
 package kr.kro.backas.backassurvivalpackextended.ranking.model;
 
-import kr.kro.backas.backassurvivalpackextended.BackasSurvivalPackExtended;
 import kr.kro.backas.backassurvivalpackextended.ranking.AbstractRanking;
-import kr.kro.backas.backassurvivalpackextended.ranking.data.DoubleRankData;
 import kr.kro.backas.backassurvivalpackextended.ranking.data.IntegerRankData;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
@@ -12,10 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerCommandSendEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -32,7 +27,7 @@ public class PlayTimeRanking extends AbstractRanking<IntegerRankData> {
         return null;
     }
 
-    private void update() {
+    private void update0() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             IntegerRankData data = getRankData(player.getUniqueId());
             if (data != null) data.setAmount(player.getStatistic(Statistic.PLAY_ONE_MINUTE));
@@ -48,7 +43,7 @@ public class PlayTimeRanking extends AbstractRanking<IntegerRankData> {
 
     @Override
     public void send(Player player, int displayAmount, int page) {
-        update();
+        update0();
         if (displayAmount < 1) displayAmount = 1;
 
         int maxPage = (int) Math.ceil((double) ranks.size() / displayAmount);

@@ -91,7 +91,6 @@ public class MoneyRanking extends AbstractRanking<DoubleRankData> {
 
     @Override
     protected void load() {
-        ranks.clear();
         for (OfflinePlayer offlinePlayer : Bukkit.getOfflinePlayers()) {
             User user = BackasSurvivalPackExtended.getUserManager()
                     .newInstance(offlinePlayer);
