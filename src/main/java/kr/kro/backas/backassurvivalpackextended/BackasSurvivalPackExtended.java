@@ -4,10 +4,13 @@ import kr.kro.backas.backassurvivalpackextended.coin.CoinManager;
 import kr.kro.backas.backassurvivalpackextended.command.*;
 import kr.kro.backas.backassurvivalpackextended.command.admin.ItemAdminCommand;
 import kr.kro.backas.backassurvivalpackextended.command.admin.MoneyAdminCommand;
+import kr.kro.backas.backassurvivalpackextended.command.admin.PointAdminCommand;
 import kr.kro.backas.backassurvivalpackextended.easyshop.EasyShopListener;
 import kr.kro.backas.backassurvivalpackextended.easyshop.ItemListener;
 import kr.kro.backas.backassurvivalpackextended.easyshop.config.EasyPurchaseConfig;
 import kr.kro.backas.backassurvivalpackextended.easywarp.EasyWarpListener;
+import kr.kro.backas.backassurvivalpackextended.point.PointManager;
+import kr.kro.backas.backassurvivalpackextended.point.title.TitleListener;
 import kr.kro.backas.backassurvivalpackextended.ranking.RankingManager;
 import kr.kro.backas.backassurvivalpackextended.teleport.TeleportManager;
 import kr.kro.backas.backassurvivalpackextended.teleport.command.TPACommand;
@@ -19,6 +22,7 @@ import kr.kro.backas.backassurvivalpackextended.user.UserManager;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataCoin;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataMoney;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataMoneyUse;
+import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataPoint;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
@@ -33,6 +37,7 @@ public final class BackasSurvivalPackExtended extends JavaPlugin {
     private static RankingManager rankingManager;
     private static TeleportManager teleportManager;
     private static CoinManager coinTicker;
+    private static PointManager pointManager;
 
     public static BackasSurvivalPackExtended getInstance() {
         return instance;
@@ -54,6 +59,10 @@ public final class BackasSurvivalPackExtended extends JavaPlugin {
         return teleportManager;
     }
 
+    public static PointManager getPointManager() {
+        return pointManager;
+    }
+
     public static String MONEY_UNIT = " 원";
 
 
@@ -69,12 +78,15 @@ public final class BackasSurvivalPackExtended extends JavaPlugin {
         rankingManager = new RankingManager();
         coinTicker = new CoinManager();
         coinTicker.start();
+        pointManager = new PointManager();
+        pointManager.start();
 
         getServer().getPluginManager().registerEvents(new UserListener(), this);
         getServer().getPluginManager().registerEvents(new EasyShopListener(), this);
         getServer().getPluginManager().registerEvents(new ItemListener(), this);
         getServer().getPluginManager().registerEvents(new EventListener(), this);
         getServer().getPluginManager().registerEvents(new EasyWarpListener(), this);
+        getServer().getPluginManager().registerEvents(new TitleListener(), this);
 
         getCommand("ranking").setExecutor(new RankingCommand());
         getCommand("money").setExecutor(new MoneyCommand());
@@ -93,8 +105,13 @@ public final class BackasSurvivalPackExtended extends JavaPlugin {
 
         getCommand("coin").setExecutor(new CoinCommand());
 
+        getCommand("point").setExecutor(new PointCommand());
+        getCommand("point-admin").setExecutor(new PointAdminCommand());
+        getCommand("title").setExecutor(new TitleCommand());
+
         ConfigurationSerialization.registerClass(UserDataMoney.class);
         ConfigurationSerialization.registerClass(UserDataMoneyUse.class);
+        ConfigurationSerialization.registerClass(UserDataPoint.class);
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             userManager.initUser(player);

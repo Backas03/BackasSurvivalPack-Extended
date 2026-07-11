@@ -5,6 +5,7 @@ import kr.kro.backas.backassurvivalpackextended.api.UserDataPreLoadDoneEvent;
 import kr.kro.backas.backassurvivalpackextended.user.User;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataMoney;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataMoneyUse;
+import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataPoint;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.slf4j.Logger;
@@ -23,7 +24,8 @@ public class UserDataContainer {
 
     public static final Set<Class<? extends UserData>> EARLY_LOADS = Set.of(
             UserDataMoney.class,
-            UserDataMoneyUse.class
+            UserDataMoneyUse.class,
+            UserDataPoint.class
     );
 
     public static final Logger LOGGER = LoggerFactory.getLogger(UserDataContainer.class);

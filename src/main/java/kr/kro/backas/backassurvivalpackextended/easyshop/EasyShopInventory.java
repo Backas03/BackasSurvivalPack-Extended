@@ -16,14 +16,17 @@ public class EasyShopInventory {
     static {
         COSTS.put(Material.NETHERITE_INGOT, 100000);
         COSTS.put(Material.DIAMOND, 10000);
+        COSTS.put(Material.REDSTONE, 15);
         COSTS.put(Material.GRASS_BLOCK, 5);
         COSTS.put(Material.DIRT, 5);
         COSTS.put(Material.COBBLESTONE, 5);
         COSTS.put(Material.STONE, 5);
         COSTS.put(Material.DEEPSLATE, 5);
         COSTS.put(Material.COBBLED_DEEPSLATE, 5);
+        COSTS.put(Material.GRAVEL, 5);
         COSTS.put(Material.TUFF, 4);
         COSTS.put(Material.NETHERRACK, 2);
+        COSTS.put(Material.BLACKSTONE, 6);
         COSTS.put(Material.POTATO, 25);
         COSTS.put(Material.POISONOUS_POTATO, 500);
         COSTS.put(Material.CAKE, 2500);

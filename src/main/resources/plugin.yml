@@ -32,3 +32,13 @@ commands:
   tpadeny:
   tpahere:
   coin:
+  point:
+    description: 잠수 포인트를 확인합니다.
+    aliases: [포인트, 잠수포인트, vhdlsxm]
+  point-admin:
+    permission: op
+    description: 잠수 포인트를 관리합니다.
+    aliases: [포인트관리]
+  title:
+    description: 칭호 상점을 엽니다.
+    aliases: [칭호, 칭호상점, cldgh]
