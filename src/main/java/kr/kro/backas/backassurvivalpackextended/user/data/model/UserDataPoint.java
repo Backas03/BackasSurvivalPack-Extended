@@ -18,17 +18,19 @@ public class UserDataPoint implements UserData {
 
     public static UserDataLoader<UserDataPoint> loader() {
         return yaml -> yaml.getSerializable(KEY, UserDataPoint.class,
-                new UserDataPoint(0, new ArrayList<>(), null));
+                new UserDataPoint(0, new ArrayList<>(), null, 0));
     }
 
     private int amount;
     private final List<String> ownedTitles;
     private String equippedTitle;
+    private int totalEarned;
 
-    public UserDataPoint(int amount, List<String> ownedTitles, @Nullable String equippedTitle) {
+    public UserDataPoint(int amount, List<String> ownedTitles, @Nullable String equippedTitle, int totalEarned) {
         this.amount = amount;
         this.ownedTitles = ownedTitles;
         this.equippedTitle = equippedTitle;
+        this.totalEarned = totalEarned;
     }
 
     public int getAmount() {
@@ -47,6 +49,15 @@ public class UserDataPoint implements UserData {
 
     public UserDataPoint subtract(int amount) {
         this.amount -= amount;
+        return this;
+    }
+
+    public int getTotalEarned() {
+        return totalEarned;
+    }
+
+    public UserDataPoint addEarned(int amount) {
+        this.totalEarned += amount;
         return this;
     }
 
@@ -80,6 +91,7 @@ public class UserDataPoint implements UserData {
         data.put("amount", amount);
         data.put("ownedTitles", ownedTitles);
         data.put("equippedTitle", equippedTitle == null ? "" : equippedTitle);
+        data.put("totalEarned", totalEarned);
         return data;
     }
 
@@ -95,6 +107,8 @@ public class UserDataPoint implements UserData {
                 ? new ArrayList<>((List<String>) list)
                 : new ArrayList<>();
         String equipped = (String) data.getOrDefault("equippedTitle", "");
-        return new UserDataPoint(amount, ownedTitles, equipped.isEmpty() ? null : equipped);
+        // 기존 데이터에는 totalEarned가 없으므로 현재 보유량을 초기값으로 사용한다.
+        int totalEarned = (int) data.getOrDefault("totalEarned", amount);
+        return new UserDataPoint(amount, ownedTitles, equipped.isEmpty() ? null : equipped, totalEarned);
     }
 }

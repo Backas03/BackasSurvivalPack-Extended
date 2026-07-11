@@ -38,6 +38,7 @@ public class RankingManager {
         registerRanking(new HuntRanking(), registerListener);
         registerRanking(new PlayerKillRanking(), registerListener);
         registerRanking(new MoneyUseRanking(), registerListener);
+        registerRanking(new PointEarnRanking(), registerListener);
 
         lastUpdate = LocalDateTime.now();
     }

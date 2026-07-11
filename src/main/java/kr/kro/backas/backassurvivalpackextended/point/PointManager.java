@@ -1,6 +1,7 @@
 package kr.kro.backas.backassurvivalpackextended.point;
 
 import kr.kro.backas.backassurvivalpackextended.BackasSurvivalPackExtended;
+import kr.kro.backas.backassurvivalpackextended.api.PlayerPointEarnEvent;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataPoint;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -76,7 +77,11 @@ public final class PointManager {
     }
 
     public static void addPoint(Player player, int amount) {
-        getUserDataPoint(player).add(amount);
+        UserDataPoint data = getUserDataPoint(player);
+        data.add(amount);
+        data.addEarned(amount);
+        Bukkit.getPluginManager().callEvent(
+                new PlayerPointEarnEvent(player, amount, data.getTotalEarned()));
     }
 
     public static void removePoint(Player player, int amount) {
