@@ -102,13 +102,14 @@ public final class BackasSurvivalPackExtended extends JavaPlugin {
 
         EasyPurchaseConfig.load();
 
-        // 엔더월드 경험치팜 상자 자동으로 비우는 놈
+        /* 엔더월드 경험치팜 상자 자동으로 비우는 놈
         Bukkit.getScheduler().runTaskTimer(this, () -> {
             Block chestBlock1 = Bukkit.getWorld("world_the_end").getBlockAt(254, 48, 0);
             if (chestBlock1.getState() instanceof Chest chest1) {
                 chest1.getBlockInventory().clear();
             }
         }, 0, 20 * 5);
+         */
 
     }
 

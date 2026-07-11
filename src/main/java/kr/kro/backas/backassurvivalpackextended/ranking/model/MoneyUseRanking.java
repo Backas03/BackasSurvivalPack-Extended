@@ -62,7 +62,7 @@ public class MoneyUseRanking extends AbstractRanking<DoubleRankData> {
                                 Component.text("클릭하여 이전 페이지로 이동합니다.\n" +
                                         "/ranking " + getName() + " " + (page - 1)
                                 )))
-                        .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/ranking " + getName() + " " + (page - 1)));
+                        .clickEvent(ClickEvent.runCommand("/ranking " + getName() + " " + (page - 1)));
         Component nextPageMessage = page >= maxPage ? Component.empty() :
                 Component.text().append(
                         Component.space(),
@@ -71,7 +71,7 @@ public class MoneyUseRanking extends AbstractRanking<DoubleRankData> {
                                         Component.text("클릭하여 다음 페이지로 이동합니다.\n" +
                                                 "/ranking " + getName() + " " + (page + 1)
                                         )))
-                                .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/ranking " + getName() + " " + (page + 1)))
+                                .clickEvent(ClickEvent.runCommand("/ranking " + getName() + " " + (page + 1)))
                 ).build();
 
         player.sendMessage(Component.text().append(

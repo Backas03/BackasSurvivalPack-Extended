@@ -53,11 +53,11 @@ public class TeleportManager {
                             Component.text(message, NamedTextColor.WHITE),
                             Component.text("[수락]", NamedTextColor.GREEN)
                                     .hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, Component.text("/tpaccept " + from.getName())))
-                                    .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaccept " + from.getName())),
+                                    .clickEvent(ClickEvent.runCommand("/tpaccept " + from.getName()))    ,
                             Component.space(),
                             Component.text("[거절]", NamedTextColor.RED)
                                     .hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, Component.text("/tpadeny " + from.getName())))
-                                    .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/tpadeny " + from.getName()))
+                                    .clickEvent(ClickEvent.runCommand("/tpadeny " + from.getName()))
                     )
             );
             return;

@@ -24,10 +24,21 @@ public class EasyWarp {
     public static final int COST = 0;
 
     static {
-        WARPS.put("home", new Node(
+        WARPS.put("spawn", new Node(
                 Component.text("스폰", NamedTextColor.GREEN),
                 new ItemStack(Material.GRASS_BLOCK),
                 new Location(Bukkit.getWorld("world"), 0, 70, -0, 90, 0))
+        );
+
+        WARPS.put("town", new Node(
+                Component.text("마을", NamedTextColor.GREEN),
+                new ItemStack(Material.CAMPFIRE),
+                new Location(Bukkit.getWorld("world"), 39, 64, -1029, 0, 0))
+        );
+        WARPS.put("town-2", new Node(
+                Component.text("마을 2", NamedTextColor.GREEN),
+                new ItemStack(Material.CAMPFIRE, 2),
+                new Location(Bukkit.getWorld("world"), -317.347, 68, -1044.584, -172.3f, 11.4f))
         );
         /*WARPS.put("ender-farm", new Node(
                 Component.text("엔더팜", NamedTextColor.AQUA),

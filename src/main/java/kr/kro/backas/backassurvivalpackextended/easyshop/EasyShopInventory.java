@@ -22,6 +22,8 @@ public class EasyShopInventory {
         COSTS.put(Material.STONE, 5);
         COSTS.put(Material.DEEPSLATE, 5);
         COSTS.put(Material.COBBLED_DEEPSLATE, 5);
+        COSTS.put(Material.TUFF, 4);
+        COSTS.put(Material.NETHERRACK, 2);
         COSTS.put(Material.POTATO, 25);
         COSTS.put(Material.POISONOUS_POTATO, 500);
         COSTS.put(Material.CAKE, 2500);

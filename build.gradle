@@ -8,8 +8,8 @@ version = '0.1.0-SNAPSHOT'
 repositories {
     mavenCentral()
     maven {
-        name = "papermc-repo"
-        url = "https://repo.papermc.io/repository/maven-public/"
+        name = "papermc"
+        url = uri("https://repo.papermc.io/repository/maven-public/")
     }
     maven {
         name = "sonatype"
@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly "io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT"
+    compileOnly("io.papermc.paper:paper-api:26.1.2.build.+")
 }
 
 task copyJar(type: Copy) {
@@ -26,7 +26,7 @@ task copyJar(type: Copy) {
     into 'C:\\Users\\wkgus\\OneDrive\\바탕 화면\\1.21.1-a\\plugins'
 }
 
-def targetJavaVersion = 17
+def targetJavaVersion = 25
 java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
     sourceCompatibility = javaVersion

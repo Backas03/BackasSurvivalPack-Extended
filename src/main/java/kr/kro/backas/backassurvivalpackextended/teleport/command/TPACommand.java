@@ -45,11 +45,11 @@ public class TPACommand implements CommandExecutor {
                             Component.space(),
                             Component.text("[수락]", NamedTextColor.GREEN)
                                     .hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, Component.text("/tpaccept " + requester.getName())))
-                                    .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaccept " + requester.getName())),
+                                    .clickEvent(ClickEvent.runCommand("/tpaccept " + requester.getName())),
                             Component.space(),
                             Component.text("[거절]", NamedTextColor.RED)
                                     .hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, Component.text("/tpadeny " + requester.getName())))
-                                    .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/tpadeny " + requester.getName()))
+                                    .clickEvent(ClickEvent.runCommand("/tpadeny " + requester.getName()))
                     ));
                 }
             }
