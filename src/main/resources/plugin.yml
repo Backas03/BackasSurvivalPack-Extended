@@ -45,3 +45,6 @@ commands:
   farming:
     description: 농사 레벨을 확인합니다.
     aliases: [농사, 농사레벨, shdtk]
+  mining:
+    description: 광질 레벨을 확인합니다.
+    aliases: [광질, 광질레벨, rhkdwlf]

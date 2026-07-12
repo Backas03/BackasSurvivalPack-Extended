@@ -4,6 +4,7 @@ import kr.kro.backas.backassurvivalpackextended.BackasSurvivalPackExtended;
 import kr.kro.backas.backassurvivalpackextended.api.UserDataPreLoadDoneEvent;
 import kr.kro.backas.backassurvivalpackextended.user.User;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataFarming;
+import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataMining;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataMoney;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataMoneyUse;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataPoint;
@@ -27,7 +28,8 @@ public class UserDataContainer {
             UserDataMoney.class,
             UserDataMoneyUse.class,
             UserDataPoint.class,
-            UserDataFarming.class
+            UserDataFarming.class,
+            UserDataMining.class
     );
 
     public static final Logger LOGGER = LoggerFactory.getLogger(UserDataContainer.class);
