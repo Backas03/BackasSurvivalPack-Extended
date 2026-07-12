@@ -37,7 +37,10 @@ public class DoubleRankData extends RankData<DoubleRankData> {
 
     @Override
     public int compareTo(@NotNull DoubleRankData o) {
-        return Double.compare(o.amount, amount);
+        int compared = Double.compare(o.amount, amount);
+        if (compared != 0) return compared;
+        // 동점자가 TreeSet에서 중복으로 취급되어 누락되지 않도록 UUID로 구분
+        return getUniqueId().compareTo(o.getUniqueId());
     }
 
     public static DoubleRankData deserialize(Map<String, Object> data) {

@@ -229,7 +229,7 @@ public class EasyPurchaseInventory {
                     noItalic(Component.text("잠수 포인트: ", Palette.WHITE)
                             .append(Component.text(String.format("%,d", pointData.getAmount()) + PointManager.POINT_UNIT, Palette.AQUA))),
                     Component.empty(),
-                    noItalic(Component.text("접속 1분마다 50~100포인트,", Palette.GRAY)),
+                    noItalic(Component.text("접속 1분마다 5~10포인트,", Palette.GRAY)),
                     noItalic(Component.text("2명 이상 접속 중이면 2배!", Palette.GRAY))
             ));
         });

@@ -54,9 +54,9 @@ public final class PointManager {
     }
 
     /**
-     * 50~100 사이 랜덤 포인트를 굴리되, 누적 편차를 기억해서
+     * ROLL_MIN~ROLL_MAX 사이 랜덤 포인트를 굴리되, 누적 편차를 기억해서
      * 운이 나빴던 플레이어는 다음 롤이 평균 위로, 운이 좋았던 플레이어는 평균 아래로
-     * 당겨지도록 보정한다. 장기적으로 모두가 평균(75/분)에 수렴한다.
+     * 당겨지도록 보정한다. 장기적으로 모두가 평균(ROLL_MEAN/분)에 수렴한다.
      */
     private int roll(UUID uniqueId) {
         double deviation = rollDeviations.getOrDefault(uniqueId, 0.0);

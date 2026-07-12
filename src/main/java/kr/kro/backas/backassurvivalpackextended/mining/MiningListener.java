@@ -1,9 +1,9 @@
 package kr.kro.backas.backassurvivalpackextended.mining;
 
-import kr.kro.backas.backassurvivalpackextended.BackasSurvivalPackExtended;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataMining;
-import net.kyori.adventure.text.Component;
 import kr.kro.backas.backassurvivalpackextended.util.Palette;
+import kr.kro.backas.backassurvivalpackextended.util.PlacedBlockTracker;
+import net.kyori.adventure.text.Component;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -13,36 +13,31 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 public class MiningListener implements Listener {
 
-    // 플레이어가 직접 설치한 광석 표시 (실크터치로 캔 광석 재설치->채굴 악용 방지)
-    private static final String PLACED_METADATA = "bspe-mining-placed";
-
     @EventHandler(ignoreCancelled = true)
     public void onBlockPlace(BlockPlaceEvent event) {
+        // 실크터치로 캔 광석을 재설치->채굴하는 악용 방지
         if (MiningManager.isOre(event.getBlock().getType())) {
-            event.getBlock().setMetadata(PLACED_METADATA,
-                    new FixedMetadataValue(BackasSurvivalPackExtended.getInstance(), true));
+            PlacedBlockTracker.mark(event.getBlock());
         }
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
-        if (player.getGameMode() == GameMode.CREATIVE) return;
-
         Block block = event.getBlock();
         Material type = block.getType();
         if (!MiningManager.isOre(type)) return;
 
-        if (block.hasMetadata(PLACED_METADATA)) {
-            block.removeMetadata(PLACED_METADATA, BackasSurvivalPackExtended.getInstance());
-            return;
-        }
+        // 크리에이티브 파괴여도 설치 표시는 지워져야 하므로 게임모드 검사보다 먼저 처리한다.
+        boolean placedByPlayer = PlacedBlockTracker.unmark(block);
+        if (player.getGameMode() == GameMode.CREATIVE) return;
+        if (placedByPlayer) return;
+
         // 적정 도구가 아니면 (드랍이 없으므로) 경험치도 없음
         if (!block.isPreferredTool(player.getInventory().getItemInMainHand())) {
             return;

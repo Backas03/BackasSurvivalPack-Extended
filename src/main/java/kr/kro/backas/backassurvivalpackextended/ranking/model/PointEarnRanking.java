@@ -32,36 +32,48 @@ public class PointEarnRanking extends AbstractRanking<IntegerRankData> {
     @Override
     public Listener getUpdateListener() {
         return new Listener() {
+            /**
+             * RankingManager.update()가 5분마다 랭킹 객체를 새로 만들지만 리스너는
+             * 최초 한 번만 등록되므로, 항상 현재 등록된 인스턴스를 찾아 갱신한다.
+             */
+            private PointEarnRanking live() {
+                PointEarnRanking live = BackasSurvivalPackExtended.getRankingManager() == null
+                        ? null
+                        : BackasSurvivalPackExtended.getRankingManager().getRanking(PointEarnRanking.class);
+                return live != null ? live : PointEarnRanking.this;
+            }
+
             @EventHandler
             public void onLoad(ServerLoadEvent event) {
+                PointEarnRanking ranking = live();
                 for (OfflinePlayer ofp : Bukkit.getOfflinePlayers()) {
                     User user = BackasSurvivalPackExtended.getUserManager()
                             .newInstance(ofp);
-                    if (getRankData(ofp.getUniqueId()) != null) {
+                    if (ranking.getRankData(ofp.getUniqueId()) != null) {
                         continue;
                     }
-                    IntegerRankData data = new IntegerRankData(
+                    ranking.getRanks().add(new IntegerRankData(
                             ofp.getUniqueId(),
                             ofp.getName(),
                             user.getDataContainer()
                                     .getOrLoad(UserDataPoint.class)
                                     .getTotalEarned()
-                    );
-                    ranks.add(data);
+                    ));
                 }
             }
 
             @EventHandler
             public void onPointEarn(PlayerPointEarnEvent event) {
                 Player player = event.getPlayer();
-                IntegerRankData data = getRankData(player);
-                if (data != null) data.setAmount(event.getTotalEarned());
-                else {
-                    data = new IntegerRankData(
-                            player,
-                            event.getTotalEarned()
-                    );
-                    ranks.add(data);
+                PointEarnRanking ranking = live();
+                IntegerRankData data = ranking.getRankData(player);
+                if (data != null) {
+                    // TreeSet 정렬이 깨지지 않도록 제거 후 값 변경, 재삽입
+                    ranking.getRanks().remove(data);
+                    data.setAmount(event.getTotalEarned());
+                    ranking.getRanks().add(data);
+                } else {
+                    ranking.getRanks().add(new IntegerRankData(player, event.getTotalEarned()));
                 }
             }
 
@@ -69,20 +81,17 @@ public class PointEarnRanking extends AbstractRanking<IntegerRankData> {
             public void onDataLoaded(UserDataPreLoadDoneEvent event) {
                 Player player = event.getUser().getPlayer();
                 if (player == null) return;
-                IntegerRankData data = getRankData(player);
-                if (data != null) return;
+                PointEarnRanking ranking = live();
+                if (ranking.getRankData(player) != null) return;
 
                 User user = BackasSurvivalPackExtended.getUserManager()
                         .newInstance(player);
-                data = new IntegerRankData(
+                ranking.getRanks().add(new IntegerRankData(
                         player,
                         user.getDataContainer()
                                 .getOrLoad(UserDataPoint.class)
                                 .getTotalEarned()
-                );
-                if (getRankData(player) == null) {
-                    ranks.add(data);
-                }
+                ));
             }
         };
     }

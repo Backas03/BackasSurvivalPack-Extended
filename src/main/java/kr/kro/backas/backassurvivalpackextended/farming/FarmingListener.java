@@ -1,9 +1,9 @@
 package kr.kro.backas.backassurvivalpackextended.farming;
 
-import kr.kro.backas.backassurvivalpackextended.BackasSurvivalPackExtended;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataFarming;
-import net.kyori.adventure.text.Component;
 import kr.kro.backas.backassurvivalpackextended.util.Palette;
+import kr.kro.backas.backassurvivalpackextended.util.PlacedBlockTracker;
+import net.kyori.adventure.text.Component;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -15,38 +15,32 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerHarvestBlockEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 public class FarmingListener implements Listener {
-
-    // 플레이어가 직접 설치한 블록 표시 (설치->파괴 반복으로 경험치 버는 것 방지)
-    private static final String PLACED_METADATA = "bspe-farming-placed";
 
     @EventHandler(ignoreCancelled = true)
     public void onBlockPlace(BlockPlaceEvent event) {
         Material type = event.getBlock().getType();
         // 성장 단계가 있는 작물은 age 검사로 걸러지므로, 설치 악용이 가능한 작물만 표시한다.
         if (FarmingManager.isCrop(type) && FarmingManager.SKIP_AGE_CHECK.contains(type)) {
-            event.getBlock().setMetadata(PLACED_METADATA,
-                    new FixedMetadataValue(BackasSurvivalPackExtended.getInstance(), true));
+            PlacedBlockTracker.mark(event.getBlock());
         }
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
-        if (player.getGameMode() == GameMode.CREATIVE) return;
-
         Block block = event.getBlock();
         Material type = block.getType();
         if (!FarmingManager.isCrop(type)) return;
 
-        if (block.hasMetadata(PLACED_METADATA)) {
-            block.removeMetadata(PLACED_METADATA, BackasSurvivalPackExtended.getInstance());
-            return;
-        }
+        // 크리에이티브 파괴여도 설치 표시는 지워져야 하므로 게임모드 검사보다 먼저 처리한다.
+        boolean placedByPlayer = PlacedBlockTracker.unmark(block);
+        if (player.getGameMode() == GameMode.CREATIVE) return;
+        if (placedByPlayer) return;
+
         // 다 자란 작물만 인정
         if (!FarmingManager.SKIP_AGE_CHECK.contains(type)
                 && block.getBlockData() instanceof Ageable ageable

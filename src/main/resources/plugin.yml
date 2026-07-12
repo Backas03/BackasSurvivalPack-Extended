@@ -39,7 +39,8 @@ commands:
     permission: op
     description: 잠수 포인트를 관리합니다.
     aliases: [포인트관리]
-  title:
+  # 바닐라 /title 명령어를 가리지 않도록 이름은 titleshop 사용 (별칭으로 접근)
+  titleshop:
     description: 칭호 상점을 엽니다.
     aliases: [칭호, 칭호상점, cldgh]
   farming:

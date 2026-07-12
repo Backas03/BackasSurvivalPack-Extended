@@ -27,6 +27,7 @@ import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataMining;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataMoney;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataMoneyUse;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataPoint;
+import kr.kro.backas.backassurvivalpackextended.util.PlacedBlockTracker;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
@@ -113,7 +114,7 @@ public final class BackasSurvivalPackExtended extends JavaPlugin {
 
         getCommand("point").setExecutor(new PointCommand());
         getCommand("point-admin").setExecutor(new PointAdminCommand());
-        getCommand("title").setExecutor(new TitleCommand());
+        getCommand("titleshop").setExecutor(new TitleCommand());
         getCommand("farming").setExecutor(new FarmingCommand());
         getCommand("mining").setExecutor(new MiningCommand());
 
@@ -128,6 +129,7 @@ public final class BackasSurvivalPackExtended extends JavaPlugin {
         }
 
         EasyPurchaseConfig.load();
+        PlacedBlockTracker.load();
 
         /* 엔더월드 경험치팜 상자 자동으로 비우는 놈
         Bukkit.getScheduler().runTaskTimer(this, () -> {
@@ -144,5 +146,6 @@ public final class BackasSurvivalPackExtended extends JavaPlugin {
     public void onDisable() {
         // Plugin shutdown logic
         userManager.saveAll();
+        PlacedBlockTracker.save();
     }
 }
