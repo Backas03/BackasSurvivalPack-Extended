@@ -71,9 +71,9 @@ public final class FarmingManager {
         return EXTRA_DROPS.get(material);
     }
 
-    /** 다음 레벨까지 필요한 경험치 */
+    /** 다음 레벨까지 필요한 경험치: (레벨+1)² x 100 (만렙 누적 38,500) */
     public static int xpToNext(int level) {
-        return (level + 1) * 100;
+        return (level + 1) * (level + 1) * 100;
     }
 
     public static int getLevel(int totalXp) {
