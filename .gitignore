@@ -116,3 +116,6 @@ run/
 
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
+
+# SFTP 배포 설정 (비밀번호 포함 - 커밋 금지)
+local.properties

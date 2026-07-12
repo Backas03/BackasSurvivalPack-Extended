@@ -1,0 +1,7 @@
+# SFTP 자동배포 설정 예시
+# 이 파일을 local.properties로 복사한 뒤 값을 채워주세요. (local.properties는 커밋되지 않음)
+ip=123.456.789.0
+port=22
+user=vitamin
+password=비밀번호
+path=/home/vitamin/minecraft-server/26.1.2/plugins

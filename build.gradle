@@ -1,3 +1,15 @@
+import com.jcraft.jsch.ChannelSftp
+import com.jcraft.jsch.JSch
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.github.mwiede:jsch:2.28.4'
+    }
+}
+
 plugins {
     id 'java'
 }
@@ -21,9 +33,62 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:26.1.2.build.+")
 }
 
+jar {
+    // 빌드 파일명은 버전과 무관하게 항상 프로젝트명과 동일하게
+    archiveFileName = "${rootProject.name}.jar"
+}
+
 task copyJar(type: Copy) {
     from jar
     into 'C:\\Users\\wkgus\\OneDrive\\바탕 화면\\1.21.1-a\\plugins'
+}
+
+// local.properties에서 SFTP 배포 설정을 읽는다 (비밀번호가 들어가므로 git에 커밋하지 않음)
+def localProps = new Properties()
+def localPropsFile = rootProject.file('local.properties')
+if (localPropsFile.exists()) {
+    localPropsFile.withInputStream { localProps.load(it) }
+}
+
+tasks.register('deploy') {
+    group = 'distribution'
+    description = 'jar를 빌드하고 SFTP로 서버 plugins 폴더에 업로드합니다. (local.properties 필요)'
+    dependsOn tasks.named('jar')
+    doLast {
+        def missing = ['ip', 'port', 'user', 'password', 'path'].findAll {
+            !localProps.getProperty(it)?.trim()
+        }
+        if (!missing.isEmpty()) {
+            throw new GradleException("local.properties에 다음 항목을 입력해주세요: ${missing.join(', ')}")
+        }
+
+        def jarFile = tasks.jar.archiveFile.get().asFile
+        def remotePath = localProps.getProperty('path').trim()
+        if (!remotePath.endsWith('/')) remotePath += '/'
+
+        def session = null
+        def channel = null
+        try {
+            def jsch = new JSch()
+            session = jsch.getSession(
+                    localProps.getProperty('user').trim(),
+                    localProps.getProperty('ip').trim(),
+                    localProps.getProperty('port').trim() as int
+            )
+            session.setPassword(localProps.getProperty('password'))
+            session.setConfig('StrictHostKeyChecking', 'no')
+            session.connect(15000)
+
+            channel = session.openChannel('sftp') as ChannelSftp
+            channel.connect(15000)
+            channel.put(jarFile.absolutePath, remotePath + jarFile.name)
+
+            println "[배포 완료] ${jarFile.name} -> ${localProps.getProperty('ip').trim()}:${remotePath}"
+        } finally {
+            channel?.disconnect()
+            session?.disconnect()
+        }
+    }
 }
 
 def targetJavaVersion = 25
