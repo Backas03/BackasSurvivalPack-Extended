@@ -11,7 +11,7 @@ import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataPoint;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
-import net.kyori.adventure.text.format.NamedTextColor;
+import kr.kro.backas.backassurvivalpackextended.util.Palette;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -109,7 +109,7 @@ public class PointEarnRanking extends AbstractRanking<IntegerRankData> {
 
         int maxPage = (int) Math.ceil((double) ranks.size() / displayAmount);
         Component previousPageMessage = page <= 1 ? Component.empty() :
-                Component.text("[이전] ", NamedTextColor.RED)
+                Component.text("[이전] ", Palette.RED)
                         .hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT,
                                 Component.text("클릭하여 이전 페이지로 이동합니다.\n" +
                                         "/ranking " + getName() + " " + (page - 1)
@@ -118,7 +118,7 @@ public class PointEarnRanking extends AbstractRanking<IntegerRankData> {
         Component nextPageMessage = page >= maxPage ? Component.empty() :
                 Component.text().append(
                         Component.space(),
-                        Component.text("[다음]", NamedTextColor.GREEN)
+                        Component.text("[다음]", Palette.GREEN)
                                 .hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT,
                                         Component.text("클릭하여 다음 페이지로 이동합니다.\n" +
                                                 "/ranking " + getName() + " " + (page + 1)
@@ -127,11 +127,11 @@ public class PointEarnRanking extends AbstractRanking<IntegerRankData> {
                 ).build();
 
         player.sendMessage(Component.text().append(
-                        Component.text("[정보] ", NamedTextColor.GOLD),
-                        Component.text(getName() + " 획득량", NamedTextColor.WHITE),
+                        Component.text("[정보] ", Palette.GOLD),
+                        Component.text(getName() + " 획득량", Palette.WHITE),
                         Component.space(),
                         previousPageMessage,
-                        Component.text("[" + page + "/" + maxPage + "]", NamedTextColor.GRAY),
+                        Component.text("[" + page + "/" + maxPage + "]", Palette.GRAY),
                         nextPageMessage
                 ).build()
         );
@@ -144,21 +144,21 @@ public class PointEarnRanking extends AbstractRanking<IntegerRankData> {
 
             IntegerRankData data = dataList.get(rankIndex);
             player.sendMessage(Component.text()
-                    .append(Component.text("[#" + (rankIndex + 1) + "] ", NamedTextColor.GREEN))
-                    .append(Component.text(data.getPlayerName(), NamedTextColor.AQUA))
-                    .append(Component.text(" - ", NamedTextColor.GRAY))
-                    .append(Component.text(String.format("%,d", data.getAmount()) + PointManager.POINT_UNIT, NamedTextColor.YELLOW))
+                    .append(Component.text("[#" + (rankIndex + 1) + "] ", Palette.GREEN))
+                    .append(Component.text(data.getPlayerName(), Palette.AQUA))
+                    .append(Component.text(" - ", Palette.GRAY))
+                    .append(Component.text(String.format("%,d", data.getAmount()) + PointManager.POINT_UNIT, Palette.YELLOW))
             );
         }
         int playerRank = getRank(player);
         if (playerRank == -1) {
-            player.sendMessage(Component.text("당신의 순위가 아직 책정되지 않았습니다.", NamedTextColor.RED));
+            player.sendMessage(Component.text("당신의 순위가 아직 책정되지 않았습니다.", Palette.RED));
             return;
         }
         player.sendMessage(Component.text().append(
-                Component.text("당신의 순위: ", NamedTextColor.WHITE),
-                Component.text(playerRank + "위", NamedTextColor.GOLD),
-                Component.text("(" + String.format("%,d", getRankData(player).getAmount()) + PointManager.POINT_UNIT + ")", NamedTextColor.GRAY))
+                Component.text("당신의 순위: ", Palette.WHITE),
+                Component.text(playerRank + "위", Palette.GOLD),
+                Component.text("(" + String.format("%,d", getRankData(player).getAmount()) + PointManager.POINT_UNIT + ")", Palette.GRAY))
         );
     }
 }

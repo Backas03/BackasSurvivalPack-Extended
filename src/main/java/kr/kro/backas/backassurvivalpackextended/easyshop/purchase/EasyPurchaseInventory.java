@@ -7,7 +7,7 @@ import kr.kro.backas.backassurvivalpackextended.point.PointManager;
 import kr.kro.backas.backassurvivalpackextended.point.title.Title;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataPoint;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
+import kr.kro.backas.backassurvivalpackextended.util.Palette;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -71,6 +71,7 @@ public class EasyPurchaseInventory {
         LIST_OF_ITEMS.put(new ItemStack(Material.PURPLE_DYE), 500);
         LIST_OF_ITEMS.put(new ItemStack(Material.MAGENTA_DYE), 500);
         LIST_OF_ITEMS.put(new ItemStack(Material.PINK_DYE), 500);
+        LIST_OF_ITEMS.put(new ItemStack(Material.GLOW_INK_SAC), 1000);
     }
 
     public static final Component INVENTORY_TITLE = Component.text("상점").decorate(TextDecoration.BOLD);
@@ -144,9 +145,9 @@ public class EasyPurchaseInventory {
     private static ItemStack createPageArrow(String name, int targetPage, int maxPage) {
         ItemStack item = new ItemStack(Material.ARROW);
         item.editMeta(meta -> {
-            meta.displayName(noItalic(Component.text(name, NamedTextColor.GREEN)));
+            meta.displayName(noItalic(Component.text(name, Palette.GREEN)));
             meta.lore(List.of(
-                    noItalic(Component.text("[좌클릭] " + targetPage + "/" + maxPage + " 페이지로 이동", NamedTextColor.GRAY))
+                    noItalic(Component.text("[좌클릭] " + targetPage + "/" + maxPage + " 페이지로 이동", Palette.GRAY))
             ));
         });
         return item;
@@ -160,20 +161,20 @@ public class EasyPurchaseInventory {
 
             lore.add(Component.empty());
             lore.add(noItalic(Component.text().append(
-                    Component.text("가격: ", NamedTextColor.WHITE),
-                    Component.text(String.format("%,d", cost) + BackasSurvivalPackExtended.MONEY_UNIT, NamedTextColor.YELLOW),
-                    Component.text(" 또는 ", NamedTextColor.GRAY),
-                    Component.text(String.format("%,d", cost) + PointManager.POINT_UNIT, NamedTextColor.AQUA)
+                    Component.text("가격: ", Palette.WHITE),
+                    Component.text(String.format("%,d", cost) + BackasSurvivalPackExtended.MONEY_UNIT, Palette.YELLOW),
+                    Component.text(" 또는 ", Palette.GRAY),
+                    Component.text(String.format("%,d", cost) + PointManager.POINT_UNIT, Palette.AQUA)
             ).build()));
             lore.add(Component.empty());
-            lore.add(noItalic(Component.text("[좌클릭]", NamedTextColor.GREEN).append(
-                    Component.text(" 1개 구매 (돈)", NamedTextColor.WHITE))));
-            lore.add(noItalic(Component.text("[쉬프트 + 좌클릭]", NamedTextColor.GREEN).append(
-                    Component.text(" 64개 구매 (돈)", NamedTextColor.WHITE))));
-            lore.add(noItalic(Component.text("[우클릭]", NamedTextColor.AQUA).append(
-                    Component.text(" 1개 구매 (잠수 포인트)", NamedTextColor.WHITE))));
-            lore.add(noItalic(Component.text("[쉬프트 + 우클릭]", NamedTextColor.AQUA).append(
-                    Component.text(" 64개 구매 (잠수 포인트)", NamedTextColor.WHITE))));
+            lore.add(noItalic(Component.text("[좌클릭]", Palette.GREEN).append(
+                    Component.text(" 1개 구매 (돈)", Palette.WHITE))));
+            lore.add(noItalic(Component.text("[쉬프트 + 좌클릭]", Palette.GREEN).append(
+                    Component.text(" 64개 구매 (돈)", Palette.WHITE))));
+            lore.add(noItalic(Component.text("[우클릭]", Palette.AQUA).append(
+                    Component.text(" 1개 구매 (잠수 포인트)", Palette.WHITE))));
+            lore.add(noItalic(Component.text("[쉬프트 + 우클릭]", Palette.AQUA).append(
+                    Component.text(" 64개 구매 (잠수 포인트)", Palette.WHITE))));
 
             itemMeta.lore(lore);
         });
@@ -189,24 +190,24 @@ public class EasyPurchaseInventory {
             meta.displayName(title.display().decoration(TextDecoration.ITALIC, false));
 
             List<Component> lore = new ArrayList<>();
-            lore.add(noItalic(Component.text("칭호", NamedTextColor.GRAY)));
+            lore.add(noItalic(Component.text("칭호", Palette.GRAY)));
             lore.add(Component.empty());
             if (equipped) {
-                lore.add(noItalic(Component.text("✔ 장착중", NamedTextColor.GREEN)));
+                lore.add(noItalic(Component.text("✔ 장착중", Palette.GREEN)));
                 lore.add(Component.empty());
-                lore.add(noItalic(Component.text("[좌클릭]", NamedTextColor.GREEN)
-                        .append(Component.text(" 장착 해제", NamedTextColor.WHITE))));
+                lore.add(noItalic(Component.text("[좌클릭]", Palette.GREEN)
+                        .append(Component.text(" 장착 해제", Palette.WHITE))));
             } else if (owned) {
-                lore.add(noItalic(Component.text("보유중", NamedTextColor.AQUA)));
+                lore.add(noItalic(Component.text("보유중", Palette.AQUA)));
                 lore.add(Component.empty());
-                lore.add(noItalic(Component.text("[좌클릭]", NamedTextColor.GREEN)
-                        .append(Component.text(" 장착", NamedTextColor.WHITE))));
+                lore.add(noItalic(Component.text("[좌클릭]", Palette.GREEN)
+                        .append(Component.text(" 장착", Palette.WHITE))));
             } else {
-                lore.add(noItalic(Component.text("가격: ", NamedTextColor.WHITE)
-                        .append(Component.text(String.format("%,d", title.getCost()) + PointManager.POINT_UNIT, NamedTextColor.AQUA))));
+                lore.add(noItalic(Component.text("가격: ", Palette.WHITE)
+                        .append(Component.text(String.format("%,d", title.getCost()) + PointManager.POINT_UNIT, Palette.AQUA))));
                 lore.add(Component.empty());
-                lore.add(noItalic(Component.text("[좌클릭]", NamedTextColor.GREEN)
-                        .append(Component.text(" 구매 후 장착 (잠수 포인트)", NamedTextColor.WHITE))));
+                lore.add(noItalic(Component.text("[좌클릭]", Palette.GREEN)
+                        .append(Component.text(" 구매 후 장착 (잠수 포인트)", Palette.WHITE))));
             }
             meta.lore(lore);
 
@@ -221,15 +222,15 @@ public class EasyPurchaseInventory {
     private static ItemStack createInfoItem(Player player, UserDataPoint pointData) {
         ItemStack item = new ItemStack(Material.EXPERIENCE_BOTTLE);
         item.editMeta(meta -> {
-            meta.displayName(noItalic(Component.text("내 지갑", NamedTextColor.GOLD)));
+            meta.displayName(noItalic(Component.text("내 지갑", Palette.GOLD)));
             meta.lore(List.of(
-                    noItalic(Component.text("돈: ", NamedTextColor.WHITE)
-                            .append(Component.text(String.format("%,d", MoneyManager.getMoney(player)) + BackasSurvivalPackExtended.MONEY_UNIT, NamedTextColor.YELLOW))),
-                    noItalic(Component.text("잠수 포인트: ", NamedTextColor.WHITE)
-                            .append(Component.text(String.format("%,d", pointData.getAmount()) + PointManager.POINT_UNIT, NamedTextColor.AQUA))),
+                    noItalic(Component.text("돈: ", Palette.WHITE)
+                            .append(Component.text(String.format("%,d", MoneyManager.getMoney(player)) + BackasSurvivalPackExtended.MONEY_UNIT, Palette.YELLOW))),
+                    noItalic(Component.text("잠수 포인트: ", Palette.WHITE)
+                            .append(Component.text(String.format("%,d", pointData.getAmount()) + PointManager.POINT_UNIT, Palette.AQUA))),
                     Component.empty(),
-                    noItalic(Component.text("접속 1분마다 50~100포인트,", NamedTextColor.GRAY)),
-                    noItalic(Component.text("2명 이상 접속 중이면 2배!", NamedTextColor.GRAY))
+                    noItalic(Component.text("접속 1분마다 50~100포인트,", Palette.GRAY)),
+                    noItalic(Component.text("2명 이상 접속 중이면 2배!", Palette.GRAY))
             ));
         });
         return item;
@@ -238,10 +239,10 @@ public class EasyPurchaseInventory {
     private static ItemStack createUnequipItem() {
         ItemStack item = new ItemStack(Material.BARRIER);
         item.editMeta(meta -> {
-            meta.displayName(noItalic(Component.text("칭호 해제", NamedTextColor.RED)));
+            meta.displayName(noItalic(Component.text("칭호 해제", Palette.RED)));
             meta.lore(List.of(
-                    noItalic(Component.text("[좌클릭]", NamedTextColor.GREEN)
-                            .append(Component.text(" 장착중인 칭호를 해제합니다.", NamedTextColor.WHITE)))
+                    noItalic(Component.text("[좌클릭]", Palette.GREEN)
+                            .append(Component.text(" 장착중인 칭호를 해제합니다.", Palette.WHITE)))
             ));
         });
         return item;

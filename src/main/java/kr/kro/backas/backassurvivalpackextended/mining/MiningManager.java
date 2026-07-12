@@ -3,7 +3,7 @@ package kr.kro.backas.backassurvivalpackextended.mining;
 import kr.kro.backas.backassurvivalpackextended.BackasSurvivalPackExtended;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataMining;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
+import kr.kro.backas.backassurvivalpackextended.util.Palette;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -126,11 +126,11 @@ public final class MiningManager {
             return false;
         }
         Bukkit.broadcast(Component.text().append(
-                Component.text("[광질] ", NamedTextColor.AQUA),
-                Component.text(player.getName(), NamedTextColor.AQUA),
-                Component.text("님이 ", NamedTextColor.WHITE),
-                Component.text("광질 " + newLevel + "레벨", NamedTextColor.GOLD),
-                Component.text("을 달성했어요! 🎉", NamedTextColor.WHITE)
+                Component.text("[광질] ", Palette.AQUA),
+                Component.text(player.getName(), Palette.AQUA),
+                Component.text("님이 ", Palette.WHITE),
+                Component.text("광질 " + newLevel + "레벨", Palette.GOLD),
+                Component.text("을 달성했어요! 🎉", Palette.WHITE)
         ).build());
         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
         return true;

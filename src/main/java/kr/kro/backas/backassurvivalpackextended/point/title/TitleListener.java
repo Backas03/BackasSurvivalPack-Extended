@@ -4,7 +4,7 @@ import io.papermc.paper.chat.ChatRenderer;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import kr.kro.backas.backassurvivalpackextended.api.UserDataPreLoadDoneEvent;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
+import kr.kro.backas.backassurvivalpackextended.util.Palette;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,9 +19,9 @@ public class TitleListener implements Listener {
                 Component.text().append(
                         title.display(),
                         Component.space(),
-                        Component.text("<", NamedTextColor.WHITE),
+                        Component.text("<", Palette.WHITE),
                         sourceDisplayName,
-                        Component.text("> ", NamedTextColor.WHITE),
+                        Component.text("> ", Palette.WHITE),
                         message
                 ).build()
         ));

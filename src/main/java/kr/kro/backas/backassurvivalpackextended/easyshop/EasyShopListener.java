@@ -8,7 +8,7 @@ import kr.kro.backas.backassurvivalpackextended.point.title.Title;
 import kr.kro.backas.backassurvivalpackextended.point.title.TitleManager;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataPoint;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
+import kr.kro.backas.backassurvivalpackextended.util.Palette;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -56,7 +56,7 @@ public class EasyShopListener implements Listener {
         if (slot == EasyPurchaseInventory.UNEQUIP_SLOT) {
             if (!event.getClick().isLeftClick()) return;
             TitleManager.unequip(player);
-            player.sendMessage(Component.text("칭호를 해제하였습니다.", NamedTextColor.GRAY));
+            player.sendMessage(Component.text("칭호를 해제하였습니다.", Palette.GRAY));
             EasyPurchaseInventory.open(player, page);
             return;
         }
@@ -75,7 +75,7 @@ public class EasyShopListener implements Listener {
 
         int cost = EasyPurchaseInventory.getCost(slot, page);
         if (cost == 0) {
-            player.sendMessage(Component.text("해당 아이템은 구매할 수 없습니다.", NamedTextColor.RED));
+            player.sendMessage(Component.text("해당 아이템은 구매할 수 없습니다.", Palette.RED));
             return;
         }
 
@@ -88,18 +88,18 @@ public class EasyShopListener implements Listener {
 
         if (byPoint) {
             if (PointManager.getPoint(player) < cost * amount) {
-                player.sendMessage(Component.text("잠수 포인트가 부족합니다.", NamedTextColor.RED));
+                player.sendMessage(Component.text("잠수 포인트가 부족합니다.", Palette.RED));
                 player.closeInventory();
                 return;
             }
         } else if (MoneyManager.getMoney(player) < cost * amount) {
-            player.sendMessage(Component.text("돈이 부족합니다.", NamedTextColor.RED));
+            player.sendMessage(Component.text("돈이 부족합니다.", Palette.RED));
             player.closeInventory();
             return;
         }
         ItemStack item = EasyPurchaseInventory.getItem(slot, page);
         if (item == null) {
-            player.sendMessage(Component.text("해당 아이템의 가격을 불러올 수 없습니다.", NamedTextColor.RED));
+            player.sendMessage(Component.text("해당 아이템의 가격을 불러올 수 없습니다.", Palette.RED));
             return;
         }
         item = item.clone();
@@ -110,7 +110,7 @@ public class EasyShopListener implements Listener {
         }
 
         if (amount == 0) {
-            player.sendMessage(Component.text("인벤토리에 공간이 부족합니다.", NamedTextColor.RED));
+            player.sendMessage(Component.text("인벤토리에 공간이 부족합니다.", Palette.RED));
             player.closeInventory();
             return;
         }
@@ -125,16 +125,16 @@ public class EasyShopListener implements Listener {
         }
         int newBalance = byPoint ? PointManager.getPoint(player) : MoneyManager.getMoney(player);
         player.sendMessage(Component.text().append(
-                Component.text("[구매완료] ", NamedTextColor.GREEN),
-                Component.translatable(item.translationKey()).color(NamedTextColor.WHITE).decorate(TextDecoration.BOLD),
-                Component.text(" (x" + amount + ") ", NamedTextColor.DARK_GRAY),
-                Component.text("지출", NamedTextColor.GRAY),
-                    Component.text(" -" + String.format("%,d", cost * amount) + unit + " ", NamedTextColor.RED),
-                Component.text("(", NamedTextColor.GRAY),
-                Component.text(String.format("%,d", oldBalance) + unit + " ", NamedTextColor.DARK_GRAY),
-                Component.text("⮕ ", NamedTextColor.GRAY),
-                Component.text(String.format("%,d", newBalance) + unit, NamedTextColor.WHITE),
-                Component.text(")", NamedTextColor.GRAY))
+                Component.text("[구매완료] ", Palette.GREEN),
+                Component.translatable(item.translationKey()).color(Palette.WHITE).decorate(TextDecoration.BOLD),
+                Component.text(" (x" + amount + ") ", Palette.DARK_GRAY),
+                Component.text("지출", Palette.GRAY),
+                    Component.text(" -" + String.format("%,d", cost * amount) + unit + " ", Palette.RED),
+                Component.text("(", Palette.GRAY),
+                Component.text(String.format("%,d", oldBalance) + unit + " ", Palette.DARK_GRAY),
+                Component.text("⮕ ", Palette.GRAY),
+                Component.text(String.format("%,d", newBalance) + unit, Palette.WHITE),
+                Component.text(")", Palette.GRAY))
         );
     }
 
@@ -151,7 +151,7 @@ public class EasyShopListener implements Listener {
         UserDataPoint data = PointManager.getUserDataPoint(player);
         if (title.name().equals(data.getEquippedTitle())) {
             TitleManager.unequip(player);
-            player.sendMessage(Component.text("칭호를 해제하였습니다.", NamedTextColor.GRAY));
+            player.sendMessage(Component.text("칭호를 해제하였습니다.", Palette.GRAY));
             EasyPurchaseInventory.open(player, page);
             return;
         }
@@ -160,7 +160,7 @@ public class EasyShopListener implements Listener {
             TitleManager.equip(player, title);
             player.sendMessage(Component.text().append(
                     title.display(),
-                    Component.text(" 칭호를 장착하였습니다.", NamedTextColor.GREEN)
+                    Component.text(" 칭호를 장착하였습니다.", Palette.GREEN)
             ));
             EasyPurchaseInventory.open(player, page);
             return;
@@ -168,8 +168,8 @@ public class EasyShopListener implements Listener {
 
         if (data.getAmount() < title.getCost()) {
             player.sendMessage(Component.text().append(
-                    Component.text("잠수 포인트가 부족합니다. ", NamedTextColor.RED),
-                    Component.text(String.format("(보유: %,d / 필요: %,d)", data.getAmount(), title.getCost()), NamedTextColor.GRAY)
+                    Component.text("잠수 포인트가 부족합니다. ", Palette.RED),
+                    Component.text(String.format("(보유: %,d / 필요: %,d)", data.getAmount(), title.getCost()), Palette.GRAY)
             ));
             return;
         }
@@ -178,10 +178,10 @@ public class EasyShopListener implements Listener {
         data.addTitle(title.name());
         TitleManager.equip(player, title);
         player.sendMessage(Component.text().append(
-                Component.text("[구매완료] ", NamedTextColor.GREEN),
+                Component.text("[구매완료] ", Palette.GREEN),
                 title.display(),
-                Component.text(" 칭호를 구매하고 장착하였습니다. ", NamedTextColor.WHITE),
-                Component.text("(-" + String.format("%,d", title.getCost()) + PointManager.POINT_UNIT + ")", NamedTextColor.GRAY)
+                Component.text(" 칭호를 구매하고 장착하였습니다. ", Palette.WHITE),
+                Component.text("(-" + String.format("%,d", title.getCost()) + PointManager.POINT_UNIT + ")", Palette.GRAY)
         ));
         EasyPurchaseInventory.open(player, page);
     }
@@ -214,11 +214,11 @@ public class EasyShopListener implements Listener {
             }
             MoneyManager.addMoney(player, cost * itemStack.getAmount());
             player.sendMessage(Component.text().append(
-                    Component.translatable(itemStack.translationKey()).color(NamedTextColor.WHITE).decorate(TextDecoration.BOLD),
-                    Component.text(" (x" + itemStack.getAmount() + ") ", NamedTextColor.DARK_GRAY),
-                    Component.text("을(를) ", NamedTextColor.GRAY),
-                    Component.text(cost * itemStack.getAmount(), NamedTextColor.YELLOW),
-                    Component.text(BackasSurvivalPackExtended.MONEY_UNIT + "에 판매하였습니다.", NamedTextColor.GRAY)
+                    Component.translatable(itemStack.translationKey()).color(Palette.WHITE).decorate(TextDecoration.BOLD),
+                    Component.text(" (x" + itemStack.getAmount() + ") ", Palette.DARK_GRAY),
+                    Component.text("을(를) ", Palette.GRAY),
+                    Component.text(cost * itemStack.getAmount(), Palette.YELLOW),
+                    Component.text(BackasSurvivalPackExtended.MONEY_UNIT + "에 판매하였습니다.", Palette.GRAY)
             ));
         }
         boolean drop = false;
@@ -233,7 +233,7 @@ public class EasyShopListener implements Listener {
             if (!noSpaces.isEmpty()) {
                 drop = true;
                 player.sendMessage(Component.text().append(
-                        Component.text("인벤토리에 공간이 부족하여 반환될 아이템이 바닥에 떨어졌습니다.", NamedTextColor.RED)
+                        Component.text("인벤토리에 공간이 부족하여 반환될 아이템이 바닥에 떨어졌습니다.", Palette.RED)
                 ));
                 Location dropLocation = player.getLocation();
                 World dropWorld = player.getWorld();
@@ -243,14 +243,14 @@ public class EasyShopListener implements Listener {
             }
         }
         player.sendMessage(Component.text().append(
-                Component.text("[판매완료] ", NamedTextColor.GREEN),
-                Component.text("수익", NamedTextColor.WHITE),
-                Component.text(" +" + (MoneyManager.getMoney(player) - oldMoney) + BackasSurvivalPackExtended.MONEY_UNIT + " ", NamedTextColor.YELLOW),
-                Component.text("(", NamedTextColor.GRAY),
-                Component.text(oldMoney + BackasSurvivalPackExtended.MONEY_UNIT + " ", NamedTextColor.DARK_GRAY),
-                Component.text("⮕ ", NamedTextColor.GRAY),
-                Component.text(MoneyManager.getMoney(player) + BackasSurvivalPackExtended.MONEY_UNIT, NamedTextColor.WHITE),
-                Component.text(")", NamedTextColor.GRAY))
+                Component.text("[판매완료] ", Palette.GREEN),
+                Component.text("수익", Palette.WHITE),
+                Component.text(" +" + (MoneyManager.getMoney(player) - oldMoney) + BackasSurvivalPackExtended.MONEY_UNIT + " ", Palette.YELLOW),
+                Component.text("(", Palette.GRAY),
+                Component.text(oldMoney + BackasSurvivalPackExtended.MONEY_UNIT + " ", Palette.DARK_GRAY),
+                Component.text("⮕ ", Palette.GRAY),
+                Component.text(MoneyManager.getMoney(player) + BackasSurvivalPackExtended.MONEY_UNIT, Palette.WHITE),
+                Component.text(")", Palette.GRAY))
         );
     }
 

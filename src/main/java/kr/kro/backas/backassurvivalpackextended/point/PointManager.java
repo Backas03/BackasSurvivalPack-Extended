@@ -4,7 +4,7 @@ import kr.kro.backas.backassurvivalpackextended.BackasSurvivalPackExtended;
 import kr.kro.backas.backassurvivalpackextended.api.PlayerPointEarnEvent;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataPoint;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
+import kr.kro.backas.backassurvivalpackextended.util.Palette;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -42,13 +42,13 @@ public final class PointManager {
             int amount = bonus ? roll * 2 : roll;
             addPoint(player, amount);
             player.sendActionBar(Component.text().append(
-                    Component.text("[잠수 포인트] ", NamedTextColor.AQUA),
-                    Component.text("+" + amount, NamedTextColor.YELLOW),
+                    Component.text("[잠수 포인트] ", Palette.AQUA),
+                    Component.text("+" + amount, Palette.YELLOW),
                     bonus
-                            ? Component.text(" (동접 x2)", NamedTextColor.GRAY)
+                            ? Component.text(" (동접 x2)", Palette.GRAY)
                             : Component.empty(),
-                    Component.text(" 보유: ", NamedTextColor.GRAY),
-                    Component.text(String.format("%,d", getPoint(player)) + POINT_UNIT, NamedTextColor.WHITE)
+                    Component.text(" 보유: ", Palette.GRAY),
+                    Component.text(String.format("%,d", getPoint(player)) + POINT_UNIT, Palette.WHITE)
             ).build());
         }
     }

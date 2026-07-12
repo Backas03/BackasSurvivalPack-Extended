@@ -3,7 +3,7 @@ package kr.kro.backas.backassurvivalpackextended.farming;
 import kr.kro.backas.backassurvivalpackextended.BackasSurvivalPackExtended;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataFarming;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
+import kr.kro.backas.backassurvivalpackextended.util.Palette;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -92,11 +92,11 @@ public class FarmingListener implements Listener {
                 ? "MAX"
                 : FarmingManager.getXpIntoLevel(data.getXp()) + "/" + FarmingManager.xpToNext(level);
         player.sendActionBar(Component.text().append(
-                Component.text("🌾 +" + xp + " 경험치 ", NamedTextColor.GREEN),
+                Component.text("🌾 +" + xp + " 경험치 ", Palette.GREEN),
                 extraAmount > 0
-                        ? Component.text("🍀 추가 수확 +" + extraAmount + "! ", NamedTextColor.GOLD)
+                        ? Component.text("🍀 추가 수확 +" + extraAmount + "! ", Palette.GOLD)
                         : Component.empty(),
-                Component.text("(농사 Lv." + level + " · " + progress + ")", NamedTextColor.GRAY)
+                Component.text("(농사 Lv." + level + " · " + progress + ")", Palette.GRAY)
         ).build());
     }
 }

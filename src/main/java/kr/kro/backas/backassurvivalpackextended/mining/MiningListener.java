@@ -3,7 +3,7 @@ package kr.kro.backas.backassurvivalpackextended.mining;
 import kr.kro.backas.backassurvivalpackextended.BackasSurvivalPackExtended;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataMining;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
+import kr.kro.backas.backassurvivalpackextended.util.Palette;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -70,11 +70,11 @@ public class MiningListener implements Listener {
                 ? "MAX"
                 : MiningManager.getXpIntoLevel(data.getXp()) + "/" + MiningManager.xpToNext(level);
         player.sendActionBar(Component.text().append(
-                Component.text("⛏ +" + xp + " 경험치 ", NamedTextColor.AQUA),
+                Component.text("⛏ +" + xp + " 경험치 ", Palette.AQUA),
                 extraAmount > 0
-                        ? Component.text("💎 추가 채굴 +" + extraAmount + "! ", NamedTextColor.GOLD)
+                        ? Component.text("💎 추가 채굴 +" + extraAmount + "! ", Palette.GOLD)
                         : Component.empty(),
-                Component.text("(광질 Lv." + level + " · " + progress + ")", NamedTextColor.GRAY)
+                Component.text("(광질 Lv." + level + " · " + progress + ")", Palette.GRAY)
         ).build());
     }
 }
