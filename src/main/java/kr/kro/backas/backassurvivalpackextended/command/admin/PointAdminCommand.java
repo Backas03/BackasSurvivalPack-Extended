@@ -30,7 +30,8 @@ public class PointAdminCommand implements CommandExecutor {
             return false;
         }
         if (args[0].equalsIgnoreCase("give")) {
-            PointManager.addPoint(target, amount);
+            // 관리자 지급은 누적 획득량(잠수포인트 랭킹)에 포함되지 않는다
+            PointManager.addPointWithoutEarn(target, amount);
             sender.sendMessage(Component.text("성공적으로 " + target.getName() + "님에게 " + amount + PointManager.POINT_UNIT + "를 지급하였습니다.", Palette.GREEN));
             return true;
         }

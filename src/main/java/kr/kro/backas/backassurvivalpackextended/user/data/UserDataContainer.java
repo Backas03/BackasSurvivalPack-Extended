@@ -17,10 +17,10 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class UserDataContainer {
 
@@ -39,7 +39,8 @@ public class UserDataContainer {
     @SuppressWarnings("unchecked")
     public UserDataContainer(User user) {
         this.user = user;
-        this.userDataMap = new HashMap<>();
+        // 비동기 프리로드와 메인 스레드 getOrLoad가 동시에 접근하므로 동시성 맵 사용
+        this.userDataMap = new ConcurrentHashMap<>();
 
         // 접속시 바로 로드해야할 유저 데이터를 비동기적으로 불러옵니다.
         Bukkit.getScheduler().runTaskAsynchronously(BackasSurvivalPackExtended.getInstance(), () -> {
@@ -48,7 +49,12 @@ public class UserDataContainer {
                 try {
                     Method loaderMethod = userDataClass.getMethod("loader");
                     UserDataLoader<? extends UserData> loader = (UserDataLoader<? extends UserData>) loaderMethod.invoke(null);
-                    userDataMap.put(userDataClass, loader.load(yaml));
+                    UserData loaded = loader.load(yaml);
+                    // 프리로드가 끝나기 전에 getOrLoad로 이미 로드된 인스턴스가 있으면
+                    // 그쪽에 기록된 변경(포인트/경험치 적립)이 유실되지 않도록 덮어쓰지 않는다.
+                    if (loaded != null) {
+                        userDataMap.putIfAbsent(userDataClass, loaded);
+                    }
                 } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
                     LOGGER.error("유저 데이터를 가져오는 중 오류가 발생하였습니다. userDataClass={}", userDataClass, e);
                 }
@@ -82,8 +88,12 @@ public class UserDataContainer {
         }
 
         userData = fetch(userDataClass);
-        userDataMap.put(userDataClass, userData);
-        return userData;
+        if (userData == null) {
+            return null;
+        }
+        // 로드 도중 다른 스레드(프리로드 등)가 먼저 넣었다면 그 인스턴스를 사용한다.
+        UserData existing = userDataMap.putIfAbsent(userDataClass, userData);
+        return existing != null ? userDataClass.cast(existing) : userData;
     }
 
     public <T extends UserData> T get(Class<T> userDataClass) {

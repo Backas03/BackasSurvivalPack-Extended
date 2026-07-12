@@ -76,12 +76,18 @@ public final class PointManager {
         getUserDataPoint(player).setAmount(amount);
     }
 
+    /** 잠수 적립: 보유량과 누적 획득량(랭킹 기준)을 함께 올린다. */
     public static void addPoint(Player player, int amount) {
         UserDataPoint data = getUserDataPoint(player);
         data.add(amount);
         data.addEarned(amount);
         Bukkit.getPluginManager().callEvent(
                 new PlayerPointEarnEvent(player, amount, data.getTotalEarned()));
+    }
+
+    /** 관리자 지급 등: 보유량만 조정하고 누적 획득량(랭킹)에는 포함하지 않는다. */
+    public static void addPointWithoutEarn(Player player, int amount) {
+        getUserDataPoint(player).add(amount);
     }
 
     public static void removePoint(Player player, int amount) {
