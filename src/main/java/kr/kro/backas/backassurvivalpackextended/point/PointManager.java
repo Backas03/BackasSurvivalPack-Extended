@@ -16,10 +16,10 @@ import java.util.concurrent.ThreadLocalRandom;
 public final class PointManager {
 
     public static final String POINT_UNIT = " 포인트";
-    // 1분마다 50~100포인트, 동접 2명 이상이면 2배 (1포인트 = 1원 등가)
+    // 1분마다 5~10포인트, 동접 2명 이상이면 2배 (1포인트 = 1원 등가)
     private static final long TICK_INTERVAL = 20L * 60;
-    private static final int ROLL_MIN = 50;
-    private static final int ROLL_MAX = 100;
+    private static final int ROLL_MIN = 5;
+    private static final int ROLL_MAX = 10;
     private static final double ROLL_MEAN = (ROLL_MIN + ROLL_MAX) / 2.0;
     private static final double ROLL_NOISE = (ROLL_MAX - ROLL_MIN) / 2.0;
     // 지금까지 평균보다 많이/적게 받은 만큼 다음 롤을 반대 방향으로 당기는 보정 강도

@@ -22,7 +22,7 @@ public class PointCommand implements CommandExecutor {
         ));
         player.sendMessage(Component.text().append(
                 Component.text("[도움말] ", NamedTextColor.AQUA),
-                Component.text("접속 중이면 1분마다 50~100포인트, 2명 이상 접속 중이면 2배로 적립됩니다.", NamedTextColor.GRAY)
+                Component.text("접속 중이면 1분마다 5~10포인트, 2명 이상 접속 중이면 2배로 적립됩니다.", NamedTextColor.GRAY)
         ));
         player.sendMessage(Component.text().append(
                 Component.text("[도움말] ", NamedTextColor.AQUA),

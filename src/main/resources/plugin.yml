@@ -42,3 +42,6 @@ commands:
   title:
     description: 칭호 상점을 엽니다.
     aliases: [칭호, 칭호상점, cldgh]
+  farming:
+    description: 농사 레벨을 확인합니다.
+    aliases: [농사, 농사레벨, shdtk]

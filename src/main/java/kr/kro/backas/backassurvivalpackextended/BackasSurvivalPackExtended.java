@@ -9,6 +9,7 @@ import kr.kro.backas.backassurvivalpackextended.easyshop.EasyShopListener;
 import kr.kro.backas.backassurvivalpackextended.easyshop.ItemListener;
 import kr.kro.backas.backassurvivalpackextended.easyshop.config.EasyPurchaseConfig;
 import kr.kro.backas.backassurvivalpackextended.easywarp.EasyWarpListener;
+import kr.kro.backas.backassurvivalpackextended.farming.FarmingListener;
 import kr.kro.backas.backassurvivalpackextended.point.PointManager;
 import kr.kro.backas.backassurvivalpackextended.point.title.TitleListener;
 import kr.kro.backas.backassurvivalpackextended.ranking.RankingManager;
@@ -20,6 +21,7 @@ import kr.kro.backas.backassurvivalpackextended.teleport.command.TPAcceptCommand
 import kr.kro.backas.backassurvivalpackextended.user.UserListener;
 import kr.kro.backas.backassurvivalpackextended.user.UserManager;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataCoin;
+import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataFarming;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataMoney;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataMoneyUse;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataPoint;
@@ -87,6 +89,7 @@ public final class BackasSurvivalPackExtended extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EventListener(), this);
         getServer().getPluginManager().registerEvents(new EasyWarpListener(), this);
         getServer().getPluginManager().registerEvents(new TitleListener(), this);
+        getServer().getPluginManager().registerEvents(new FarmingListener(), this);
 
         getCommand("ranking").setExecutor(new RankingCommand());
         getCommand("money").setExecutor(new MoneyCommand());
@@ -108,10 +111,12 @@ public final class BackasSurvivalPackExtended extends JavaPlugin {
         getCommand("point").setExecutor(new PointCommand());
         getCommand("point-admin").setExecutor(new PointAdminCommand());
         getCommand("title").setExecutor(new TitleCommand());
+        getCommand("farming").setExecutor(new FarmingCommand());
 
         ConfigurationSerialization.registerClass(UserDataMoney.class);
         ConfigurationSerialization.registerClass(UserDataMoneyUse.class);
         ConfigurationSerialization.registerClass(UserDataPoint.class);
+        ConfigurationSerialization.registerClass(UserDataFarming.class);
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             userManager.initUser(player);

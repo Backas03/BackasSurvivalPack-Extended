@@ -3,6 +3,7 @@ package kr.kro.backas.backassurvivalpackextended.user.data;
 import kr.kro.backas.backassurvivalpackextended.BackasSurvivalPackExtended;
 import kr.kro.backas.backassurvivalpackextended.api.UserDataPreLoadDoneEvent;
 import kr.kro.backas.backassurvivalpackextended.user.User;
+import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataFarming;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataMoney;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataMoneyUse;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataPoint;
@@ -25,7 +26,8 @@ public class UserDataContainer {
     public static final Set<Class<? extends UserData>> EARLY_LOADS = Set.of(
             UserDataMoney.class,
             UserDataMoneyUse.class,
-            UserDataPoint.class
+            UserDataPoint.class,
+            UserDataFarming.class
     );
 
     public static final Logger LOGGER = LoggerFactory.getLogger(UserDataContainer.class);
