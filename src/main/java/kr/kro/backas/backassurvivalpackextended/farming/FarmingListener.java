@@ -71,15 +71,20 @@ public class FarmingListener implements Listener {
         int level = FarmingManager.getLevel(data.getXp());
 
         int extraAmount = 0;
-        if (level > 0 && ThreadLocalRandom.current().nextDouble() < FarmingManager.getExtraDropChance(level)) {
+        Material extraDrop = FarmingManager.getExtraDrop(cropType);
+        if (level > 0 && extraDrop != null
+                && ThreadLocalRandom.current().nextDouble() < FarmingManager.getExtraDropChance(level)) {
             extraAmount = FarmingManager.rollExtraDropAmount(level);
-            Material extraDrop = FarmingManager.getExtraDrop(cropType);
-            if (extraDrop != null) {
-                block.getWorld().dropItemNaturally(
-                        block.getLocation().add(0.5, 0.5, 0.5),
-                        new ItemStack(extraDrop, extraAmount)
-                );
-            }
+            block.getWorld().dropItemNaturally(
+                    block.getLocation().add(0.5, 0.5, 0.5),
+                    new ItemStack(extraDrop, extraAmount)
+            );
+            player.sendMessage(Component.text().append(
+                    Component.text("[농사] ", Palette.GREEN),
+                    Component.text("🍀 특전 발동! ", Palette.GOLD),
+                    Component.translatable(extraDrop.translationKey()).color(Palette.WHITE),
+                    Component.text(" " + extraAmount + "개를 추가로 획득했어요!", Palette.WHITE)
+            ));
         }
 
         String progress = level >= FarmingManager.MAX_LEVEL

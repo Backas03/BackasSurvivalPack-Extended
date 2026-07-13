@@ -10,6 +10,7 @@ import kr.kro.backas.backassurvivalpackextended.easyshop.ItemListener;
 import kr.kro.backas.backassurvivalpackextended.easyshop.config.EasyPurchaseConfig;
 import kr.kro.backas.backassurvivalpackextended.easywarp.EasyWarpListener;
 import kr.kro.backas.backassurvivalpackextended.farming.FarmingListener;
+import kr.kro.backas.backassurvivalpackextended.menu.MenuListener;
 import kr.kro.backas.backassurvivalpackextended.mining.MiningListener;
 import kr.kro.backas.backassurvivalpackextended.point.PointManager;
 import kr.kro.backas.backassurvivalpackextended.point.title.TitleListener;
@@ -94,6 +95,7 @@ public final class BackasSurvivalPackExtended extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new TitleListener(), this);
         getServer().getPluginManager().registerEvents(new FarmingListener(), this);
         getServer().getPluginManager().registerEvents(new MiningListener(), this);
+        getServer().getPluginManager().registerEvents(new MenuListener(), this);
 
         getCommand("ranking").setExecutor(new RankingCommand());
         getCommand("money").setExecutor(new MoneyCommand());

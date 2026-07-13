@@ -1,5 +1,6 @@
 package kr.kro.backas.backassurvivalpackextended.easywarp;
 
+import kr.kro.backas.backassurvivalpackextended.util.Palette;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -39,6 +40,16 @@ public class EasyWarp {
                 Component.text("마을 2", NamedTextColor.GREEN),
                 new ItemStack(Material.CAMPFIRE, 2),
                 new Location(Bukkit.getWorld("world"), -317.347, 68, -1044.584, -172.3f, 11.4f))
+        );
+        WARPS.put("end-portal", new Node(
+                Component.text("엔더 포탈", Palette.PURPLE),
+                new ItemStack(Material.END_PORTAL_FRAME),
+                new Location(Bukkit.getWorld("world"), -839.5, 27, -2452.5, 180, 0))
+        );
+        WARPS.put("xp-farm", new Node(
+                Component.text("경험치 공장", Palette.AQUA),
+                new ItemStack(Material.EXPERIENCE_BOTTLE),
+                new Location(Bukkit.getWorld("world_the_end"), 239.5, 57, 4.5, -90, 0))
         );
         /*WARPS.put("ender-farm", new Node(
                 Component.text("엔더팜", NamedTextColor.AQUA),
