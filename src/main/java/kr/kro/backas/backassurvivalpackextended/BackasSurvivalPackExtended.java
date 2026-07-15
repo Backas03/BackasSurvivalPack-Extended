@@ -16,6 +16,8 @@ import kr.kro.backas.backassurvivalpackextended.mining.MiningListener;
 import kr.kro.backas.backassurvivalpackextended.point.PointManager;
 import kr.kro.backas.backassurvivalpackextended.point.title.TitleListener;
 import kr.kro.backas.backassurvivalpackextended.ranking.RankingManager;
+import kr.kro.backas.backassurvivalpackextended.stock.StockListListener;
+import kr.kro.backas.backassurvivalpackextended.stock.StockQuoteService;
 import kr.kro.backas.backassurvivalpackextended.teleport.TeleportManager;
 import kr.kro.backas.backassurvivalpackextended.teleport.command.TPACommand;
 import kr.kro.backas.backassurvivalpackextended.teleport.command.TPADenyCommand;
@@ -44,6 +46,7 @@ public final class BackasSurvivalPackExtended extends JavaPlugin {
     private static RankingManager rankingManager;
     private static TeleportManager teleportManager;
     private static CoinService coinService;
+    private static StockQuoteService stockQuoteService;
     private static PointManager pointManager;
 
     public static BackasSurvivalPackExtended getInstance() {
@@ -60,6 +63,10 @@ public final class BackasSurvivalPackExtended extends JavaPlugin {
 
     public static CoinService getCoinService() {
         return coinService;
+    }
+
+    public static StockQuoteService getStockQuoteService() {
+        return stockQuoteService;
     }
 
     public static TeleportManager getTeleportManager() {
@@ -85,6 +92,8 @@ public final class BackasSurvivalPackExtended extends JavaPlugin {
         rankingManager = new RankingManager();
         coinService = new CoinService();
         coinService.start();
+        stockQuoteService = new StockQuoteService();
+        stockQuoteService.start();
         pointManager = new PointManager();
         pointManager.start();
 
@@ -98,6 +107,7 @@ public final class BackasSurvivalPackExtended extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new MiningListener(), this);
         getServer().getPluginManager().registerEvents(new MenuListener(), this);
         getServer().getPluginManager().registerEvents(new CoinListListener(), this);
+        getServer().getPluginManager().registerEvents(new StockListListener(), this);
 
         getCommand("ranking").setExecutor(new RankingCommand());
         getCommand("money").setExecutor(new MoneyCommand());
@@ -117,6 +127,10 @@ public final class BackasSurvivalPackExtended extends JavaPlugin {
         CoinCommand coinCommand = new CoinCommand();
         getCommand("coin").setExecutor(coinCommand);
         getCommand("coin").setTabCompleter(coinCommand);
+
+        StockCommand stockCommand = new StockCommand();
+        getCommand("stock").setExecutor(stockCommand);
+        getCommand("stock").setTabCompleter(stockCommand);
 
         getCommand("point").setExecutor(new PointCommand());
         getCommand("point-admin").setExecutor(new PointAdminCommand());

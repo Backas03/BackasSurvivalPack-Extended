@@ -33,7 +33,8 @@ public final class MenuInventory {
             new Entry(Material.EXPERIENCE_BOTTLE, "잠수 포인트", Palette.AQUA, "보유 잠수 포인트 확인", "point"),
             new Entry(Material.WHEAT, "농사 레벨", Palette.GREEN, "농사 레벨/경험치/특전 확인", "farming"),
             new Entry(Material.IRON_PICKAXE, "광질 레벨", Palette.AQUA, "광질 레벨/경험치/특전 확인", "mining"),
-            new Entry(Material.SUNFLOWER, "코인 시세", Palette.GOLD, "전체 코인 시세 GUI · 등락률/검색", "coin")
+            new Entry(Material.SUNFLOWER, "코인 시세", Palette.GOLD, "전체 코인 시세 GUI · 등락률/검색", "coin"),
+            new Entry(Material.PAPER, "주식 시세", Palette.PINK, "코스피 · 코스닥 · 나스닥 시세/검색", "stock")
     );
 
     private MenuInventory() {

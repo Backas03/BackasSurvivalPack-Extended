@@ -34,6 +34,9 @@ commands:
   coin:
     description: 코인 시세를 확인합니다.
     aliases: [코인, 시세, zhdls]
+  stock:
+    description: 주식 시세를 확인합니다. (코스피/코스닥/나스닥)
+    aliases: [주식, 주식시세, wntlr]
   point:
     description: 잠수 포인트를 확인합니다.
     aliases: [포인트, 잠수포인트, vhdlsxm]
