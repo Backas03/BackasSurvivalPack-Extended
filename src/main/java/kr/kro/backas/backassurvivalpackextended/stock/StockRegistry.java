@@ -23,12 +23,13 @@ public final class StockRegistry {
     private static final int DOMESTIC_PAGE_SIZE = 100;
     private static final int DOMESTIC_MAX_PAGES = 30;
 
-    // 나스닥은 시총순 정렬 소스가 없어 기본 목록만 유명 종목 큐레이션 (이름은 상장 파일에서)
+    // 미국장은 시총순 정렬 소스가 없어 기본 목록만 유명 종목/ETF 큐레이션 (이름은 상장 파일에서)
     private static final List<String> NASDAQ_FEATURED = List.of(
             "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "AVGO", "NFLX",
             "AMD", "INTC", "QCOM", "CSCO", "ADBE", "PEP", "COST", "TXN", "AMAT",
             "MU", "PLTR", "COIN", "MSTR", "ARM", "PYPL", "ABNB", "LULU", "SBUX",
-            "BKNG", "ISRG", "GILD", "PANW", "CRWD", "DDOG", "MRVL", "LRCX", "KLAC"
+            "BKNG", "ISRG", "GILD", "PANW", "CRWD", "DDOG", "MRVL", "LRCX", "KLAC",
+            "QQQ", "SPY", "VOO", "SOXL", "TQQQ", "SCHD"
     );
 
     private static volatile Map<StockMarket, Map<String, Stock>> byMarket = new EnumMap<>(StockMarket.class);
@@ -64,23 +65,33 @@ public final class StockRegistry {
         return Collections.unmodifiableMap(stocks);
     }
 
+    /** 나스닥 상장 목록 + NYSE/Arca/AMEX 목록(otherlisted, SOXL/SPY 등 ETF 포함) */
     private static Map<String, Stock> loadNasdaq() throws IOException {
-        String raw = JsonHttpClient.getRaw("https://www.nasdaqtrader.com/dynamic/symdir/nasdaqlisted.txt");
         Map<String, Stock> stocks = new LinkedHashMap<>();
+        // nasdaqlisted: Symbol|Security Name|Market Category|Test Issue|Financial Status|Round Lot|ETF|NextShares
+        parseListingFile(stocks,
+                JsonHttpClient.getRaw("https://www.nasdaqtrader.com/dynamic/symdir/nasdaqlisted.txt"), 3);
+        // otherlisted: ACT Symbol|Security Name|Exchange|CQS Symbol|ETF|Round Lot|Test Issue|NASDAQ Symbol
+        parseListingFile(stocks,
+                JsonHttpClient.getRaw("https://www.nasdaqtrader.com/dynamic/symdir/otherlisted.txt"), 6);
+        return Collections.unmodifiableMap(stocks);
+    }
+
+    private static void parseListingFile(Map<String, Stock> stocks, String raw, int testIssueIndex) {
         for (String line : raw.split("\n")) {
             String[] parts = line.split("\\|");
-            if (parts.length < 7) continue;
+            if (parts.length <= testIssueIndex) continue;
             String symbol = parts[0].trim();
             String name = parts[1].trim();
-            if (symbol.isEmpty() || symbol.equals("Symbol") || symbol.startsWith("File Creation")) continue;
-            if (parts[3].trim().equals("Y")) continue; // 테스트 종목 제외
-            if (parts[6].trim().equals("Y")) continue; // ETF 제외
+            if (symbol.isEmpty() || name.isEmpty()) continue;
+            if (symbol.equals("Symbol") || symbol.equals("ACT Symbol") || symbol.startsWith("File Creation")) continue;
+            if (parts[testIssueIndex].trim().equals("Y")) continue; // 테스트 종목 제외
+            if (symbol.contains("$") || symbol.contains(".")) continue; // 우선주 등 특수 심볼 제외
             // "Apple Inc. - Common Stock" -> "Apple Inc."
             int suffix = name.indexOf(" - ");
             if (suffix > 0) name = name.substring(0, suffix);
-            stocks.put(symbol, new Stock(StockMarket.NASDAQ, symbol, name));
+            stocks.putIfAbsent(symbol, new Stock(StockMarket.NASDAQ, symbol, name));
         }
-        return Collections.unmodifiableMap(stocks);
     }
 
     public static boolean isLoaded() {

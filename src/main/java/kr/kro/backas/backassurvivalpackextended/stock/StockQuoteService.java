@@ -28,6 +28,7 @@ public class StockQuoteService {
 
     private static final long CACHE_TTL = 15_000;
     private static final int DOMESTIC_BATCH_SIZE = 30;
+    private static final int NASDAQ_BATCH_SIZE = 20;
     private static final long LIVE_INTERVAL = 20L * 7; // 네이버 권장 폴링 주기 7초
     private static final long REGISTRY_REFRESH_INTERVAL = 20L * 60 * 60 * 24;
 
@@ -38,7 +39,7 @@ public class StockQuoteService {
 
     private static final Map<String, StockQuote> CACHE = new ConcurrentHashMap<>();
     private final Map<UUID, Stock> liveSubscriptions = new ConcurrentHashMap<>();
-    private long lastErrorLog = 0;
+    private static long lastErrorLog = 0;
 
     public void start() {
         Bukkit.getScheduler().runTaskTimerAsynchronously(BackasSurvivalPackExtended.getInstance(), () -> {
@@ -136,8 +137,13 @@ public class StockQuoteService {
         for (int i = 0; i < domestic.size(); i += DOMESTIC_BATCH_SIZE) {
             fetchDomestic(domestic.subList(i, Math.min(i + DOMESTIC_BATCH_SIZE, domestic.size())));
         }
-        if (!nasdaq.isEmpty()) {
-            fetchNasdaqSpark(nasdaq);
+        // 한 묶음이 실패해도 나머지는 채워지도록 분할 + 격리
+        for (int i = 0; i < nasdaq.size(); i += NASDAQ_BATCH_SIZE) {
+            try {
+                fetchNasdaqSpark(nasdaq.subList(i, Math.min(i + NASDAQ_BATCH_SIZE, nasdaq.size())));
+            } catch (Exception e) {
+                logThrottled("미국 주식 시세 배치 조회 실패: " + e.getMessage());
+            }
         }
     }
 
@@ -218,16 +224,38 @@ public class StockQuoteService {
         long now = System.currentTimeMillis();
         for (Stock stock : stocks) {
             SparkEntry entry = response.get(stock.code());
-            if (entry == null || entry.close == null || entry.close.length == 0) continue;
-            double price = entry.close[entry.close.length - 1];
+            if (entry == null) continue;
+            Double lastTrade = lastNonNull(entry.close);
             double prev = entry.chartPreviousClose;
-            double changeAmount = prev > 0 ? price - prev : 0;
-            double changeRate = prev > 0 ? (price - prev) / prev * 100 : 0;
+            double price;
+            double changeAmount;
+            double changeRate;
+            if (lastTrade != null) {
+                price = lastTrade;
+                changeAmount = prev > 0 ? price - prev : 0;
+                changeRate = prev > 0 ? (price - prev) / prev * 100 : 0;
+            } else if (prev > 0) {
+                // 장외 등으로 당일 체결가가 없으면 전일 종가라도 표시
+                price = prev;
+                changeAmount = 0;
+                changeRate = 0;
+            } else {
+                continue;
+            }
             CACHE.put(stock.key(), new StockQuote(
                     price, changeRate, changeAmount,
                     -1, -1, -1, -1, null, null, -1, 0, 0, now
             ));
         }
+    }
+
+    @Nullable
+    private static Double lastNonNull(@Nullable Double[] values) {
+        if (values == null) return null;
+        for (int i = values.length - 1; i >= 0; i--) {
+            if (values[i] != null) return values[i];
+        }
+        return null;
     }
 
     private static void fetchNasdaqChart(Stock stock) throws IOException {
@@ -346,7 +374,7 @@ public class StockQuoteService {
         }
     }
 
-    private void logThrottled(String message) {
+    private static void logThrottled(String message) {
         long now = System.currentTimeMillis();
         if (now - lastErrorLog < 60_000) return;
         lastErrorLog = now;
@@ -432,7 +460,8 @@ public class StockQuoteService {
 
     private static class SparkEntry {
         double chartPreviousClose;
-        double[] close;
+        // 장외 시간에는 배열에 null이 섞여 오므로 반드시 박싱 타입으로 받는다
+        Double[] close;
     }
 
     private static class YahooChartResponse {
