@@ -134,6 +134,14 @@ public final class StockListInventory {
                                         + String.format("%.2f%%", Math.abs(rate))
                                         + " (" + StockQuoteService.signed(quote.changeAmount(), stock.market()) + ")",
                                 StockQuoteService.color(rate)))));
+                if (quote.hasOverMarketPrice()) {
+                    lore.add(noItalic(Component.text(quote.session() + ": ", Palette.GRAY)
+                            .append(Component.text(stock.market().formatMoney(
+                                            CoinService.formatPrice(quote.overPrice())) + " "
+                                            + StockQuoteService.arrow(quote.overChangeRate())
+                                            + String.format("%.2f%%", Math.abs(quote.overChangeRate())),
+                                    StockQuoteService.color(quote.overChangeRate())))));
+                }
                 if (quote.high() >= 0 && quote.low() >= 0) {
                     lore.add(noItalic(Component.text("금일 고가/저가: ", Palette.GRAY)
                             .append(Component.text(CoinService.formatPrice(quote.high()), Palette.RED))
@@ -144,8 +152,15 @@ public final class StockListInventory {
                     lore.add(noItalic(Component.text("거래대금: ", Palette.GRAY)
                             .append(Component.text(CoinService.formatVolume(quote.tradingValue()) + "원", Palette.YELLOW))));
                 }
-                if (quote.marketOpen() != null) {
-                    lore.add(noItalic(Component.text(quote.marketOpen() ? "🟢 장중" : "⚪ 장마감", Palette.GRAY)));
+                if (quote.session() != null) {
+                    String sessionIcon = switch (quote.session()) {
+                        case StockQuoteService.SESSION_REGULAR -> "🟢 ";
+                        case StockQuoteService.SESSION_PRE -> "🌅 ";
+                        case StockQuoteService.SESSION_AFTER -> "🌙 ";
+                        default -> "⚪ ";
+                    };
+                    lore.add(noItalic(Component.text(sessionIcon + quote.session(),
+                            StockQuoteService.sessionColor(quote.session()))));
                 }
             }
             lore.add(Component.empty());
