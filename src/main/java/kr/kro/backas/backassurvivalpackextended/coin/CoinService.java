@@ -37,11 +37,14 @@ public class CoinService {
         Bukkit.getScheduler().runTaskTimerAsynchronously(BackasSurvivalPackExtended.getInstance(), () -> {
             try {
                 TickerCache.refresh();
-                sendLiveActionBars();
             } catch (Exception e) {
                 logThrottled("업비트 시세 갱신 실패: " + e.getMessage());
             }
         }, 20L, TICKER_INTERVAL);
+
+        // 액션바는 2~3초면 사라져 깜빡이므로, 표시는 1초마다 캐시로 다시 그린다
+        Bukkit.getScheduler().runTaskTimerAsynchronously(BackasSurvivalPackExtended.getInstance(),
+                this::sendLiveActionBars, 20L, 20L);
     }
 
     private void sendLiveActionBars() {

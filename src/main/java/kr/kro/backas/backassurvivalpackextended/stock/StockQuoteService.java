@@ -56,11 +56,15 @@ public class StockQuoteService {
                     // LIVE는 프리장/애프터장 가격까지 필요하므로 상세 조회를 사용
                     fetchDetail(stock);
                 }
-                sendLiveActionBars();
             } catch (Exception e) {
                 logThrottled("주식 LIVE 시세 갱신 실패: " + e.getMessage());
             }
         }, LIVE_INTERVAL, LIVE_INTERVAL);
+
+        // 액션바는 2~3초면 사라져 깜빡이므로, 표시는 1초마다 캐시로 다시 그린다
+        Bukkit.getScheduler().runTaskTimerAsynchronously(BackasSurvivalPackExtended.getInstance(), () -> {
+            if (!liveSubscriptions.isEmpty()) sendLiveActionBars();
+        }, 20L, 20L);
     }
 
     private void sendLiveActionBars() {
