@@ -32,6 +32,8 @@ commands:
   tpadeny:
   tpahere:
   coin:
+    description: 코인 시세를 확인합니다.
+    aliases: [코인, 시세, zhdls]
   point:
     description: 잠수 포인트를 확인합니다.
     aliases: [포인트, 잠수포인트, vhdlsxm]
