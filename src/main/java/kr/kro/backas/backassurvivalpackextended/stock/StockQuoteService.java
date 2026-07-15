@@ -93,6 +93,11 @@ public class StockQuoteService {
         }
     }
 
+    /** LIVE 알림은 플레이어당 전역 1개만 유지된다 (코인/주식 통틀어). */
+    public void clearLive(UUID uniqueId) {
+        liveSubscriptions.remove(uniqueId);
+    }
+
     public void toggleLive(Player player, Stock stock) {
         Stock current = liveSubscriptions.get(player.getUniqueId());
         if (current != null && current.key().equals(stock.key())) {
@@ -103,6 +108,8 @@ public class StockQuoteService {
                     Component.text(" LIVE 알림을 껐습니다.", Palette.GRAY)
             ));
         } else {
+            // 코인 알림이 켜져 있으면 해제 (알림은 하나만)
+            BackasSurvivalPackExtended.getCoinService().clearLive(player.getUniqueId());
             liveSubscriptions.put(player.getUniqueId(), stock);
             player.sendMessage(Component.text().append(
                     Component.text("[주식] ", Palette.GOLD),
