@@ -1,6 +1,7 @@
 package kr.kro.backas.backassurvivalpackextended.mining;
 
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataMining;
+import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataPerks;
 import kr.kro.backas.backassurvivalpackextended.util.Palette;
 import kr.kro.backas.backassurvivalpackextended.util.PlacedBlockTracker;
 import net.kyori.adventure.text.Component;
@@ -47,10 +48,13 @@ public class MiningListener implements Listener {
             return;
         }
 
-        // 자동줍기: 드랍을 바닥에 떨어뜨리지 않고 인벤토리로 직접 지급 (경험치 구슬은 그대로)
-        List<ItemStack> drops = new ArrayList<>(block.getDrops(player.getInventory().getItemInMainHand(), player));
-        event.setDropItems(false);
-        giveItems(player, block, drops);
+        // 자동줍기 (권한부여서 필요): 드랍을 바닥에 떨어뜨리지 않고 인벤토리로 직접 지급 (경험치 구슬은 그대로)
+        boolean autoPickup = UserDataPerks.has(player, UserDataPerks.AUTO_PICKUP);
+        if (autoPickup) {
+            List<ItemStack> drops = new ArrayList<>(block.getDrops(player.getInventory().getItemInMainHand(), player));
+            event.setDropItems(false);
+            giveItems(player, block, drops);
+        }
 
         int xp = MiningManager.getOreXp(type);
         MiningManager.addXp(player, xp);
@@ -63,7 +67,14 @@ public class MiningListener implements Listener {
         if (level > 0 && extraDrop != null
                 && ThreadLocalRandom.current().nextDouble() < MiningManager.getExtraDropChance(level)) {
             extraAmount = MiningManager.rollExtraDropAmount(level);
-            giveItems(player, block, List.of(new ItemStack(extraDrop, extraAmount)));
+            if (autoPickup) {
+                giveItems(player, block, List.of(new ItemStack(extraDrop, extraAmount)));
+            } else {
+                block.getWorld().dropItemNaturally(
+                        block.getLocation().add(0.5, 0.5, 0.5),
+                        new ItemStack(extraDrop, extraAmount)
+                );
+            }
             player.sendMessage(Component.text().append(
                     Component.text("[광질] ", Palette.AQUA),
                     Component.text("💎 특전 발동! ", Palette.GOLD),

@@ -30,6 +30,7 @@ import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataFarming;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataMining;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataMoney;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataMoneyUse;
+import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataPerks;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataPoint;
 import kr.kro.backas.backassurvivalpackextended.util.PlacedBlockTracker;
 import org.bukkit.Bukkit;
@@ -143,6 +144,7 @@ public final class BackasSurvivalPackExtended extends JavaPlugin {
         ConfigurationSerialization.registerClass(UserDataPoint.class);
         ConfigurationSerialization.registerClass(UserDataFarming.class);
         ConfigurationSerialization.registerClass(UserDataMining.class);
+        ConfigurationSerialization.registerClass(UserDataPerks.class);
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             userManager.initUser(player);

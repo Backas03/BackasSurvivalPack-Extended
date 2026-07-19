@@ -7,6 +7,7 @@ import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataFarming;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataMining;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataMoney;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataMoneyUse;
+import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataPerks;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataPoint;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -29,7 +30,8 @@ public class UserDataContainer {
             UserDataMoneyUse.class,
             UserDataPoint.class,
             UserDataFarming.class,
-            UserDataMining.class
+            UserDataMining.class,
+            UserDataPerks.class
     );
 
     public static final Logger LOGGER = LoggerFactory.getLogger(UserDataContainer.class);

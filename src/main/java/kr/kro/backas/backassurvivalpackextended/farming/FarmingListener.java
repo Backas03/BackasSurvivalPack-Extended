@@ -2,6 +2,8 @@ package kr.kro.backas.backassurvivalpackextended.farming;
 
 import kr.kro.backas.backassurvivalpackextended.BackasSurvivalPackExtended;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataFarming;
+import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataPerks;
+import org.jetbrains.annotations.Nullable;
 import kr.kro.backas.backassurvivalpackextended.util.Palette;
 import kr.kro.backas.backassurvivalpackextended.util.PlacedBlockTracker;
 import net.kyori.adventure.text.Component;
@@ -64,22 +66,30 @@ public class FarmingListener implements Listener {
             return;
         }
 
-        // 자동줍기: 드랍을 바닥에 떨어뜨리지 않고 인벤토리로 직접 지급
-        List<ItemStack> drops = new ArrayList<>(block.getDrops(player.getInventory().getItemInMainHand(), player));
-        event.setDropItems(false);
+        boolean autoPickup = UserDataPerks.has(player, UserDataPerks.AUTO_PICKUP);
+        boolean autoReplant = UserDataPerks.has(player, UserDataPerks.AUTO_REPLANT);
 
-        // 자동심기: 드랍(없으면 인벤토리)에서 씨앗 1개를 소모해 같은 자리에 다시 심는다
+        // 자동줍기 (권한부여서 필요): 드랍을 바닥에 떨어뜨리지 않고 인벤토리로 직접 지급
+        List<ItemStack> drops = null;
+        if (autoPickup) {
+            drops = new ArrayList<>(block.getDrops(player.getInventory().getItemInMainHand(), player));
+            event.setDropItems(false);
+        }
+
+        // 자동심기 (권한부여서 필요): 씨앗 1개를 소모해 같은 자리에 다시 심는다 (드랍 우선, 없으면 인벤토리)
         Material seed = REPLANT_SEEDS.get(type);
-        if (seed != null && consumeSeed(player, drops, seed)) {
+        if (autoReplant && seed != null && consumeSeed(player, drops, seed)) {
             Bukkit.getScheduler().runTask(BackasSurvivalPackExtended.getInstance(), () -> {
                 if (block.getType() == Material.AIR) {
                     block.setType(type);
                 }
             });
         }
-        giveItems(player, block, drops);
+        if (drops != null) {
+            giveItems(player, block, drops);
+        }
 
-        harvest(player, block, type);
+        harvest(player, block, type, autoPickup);
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -91,14 +101,16 @@ public class FarmingListener implements Listener {
         Material type = block.getType();
         if (!FarmingManager.isCrop(type)) return;
 
-        harvest(player, block, type);
+        harvest(player, block, type, UserDataPerks.has(player, UserDataPerks.AUTO_PICKUP));
     }
 
-    private boolean consumeSeed(Player player, List<ItemStack> drops, Material seed) {
-        for (ItemStack drop : drops) {
-            if (drop != null && drop.getType() == seed && drop.getAmount() > 0) {
-                drop.setAmount(drop.getAmount() - 1);
-                return true;
+    private boolean consumeSeed(Player player, @Nullable List<ItemStack> drops, Material seed) {
+        if (drops != null) {
+            for (ItemStack drop : drops) {
+                if (drop != null && drop.getType() == seed && drop.getAmount() > 0) {
+                    drop.setAmount(drop.getAmount() - 1);
+                    return true;
+                }
             }
         }
         // 드랍에 씨앗이 없으면 인벤토리에서 소모
@@ -115,7 +127,7 @@ public class FarmingListener implements Listener {
         }
     }
 
-    private void harvest(Player player, Block block, Material cropType) {
+    private void harvest(Player player, Block block, Material cropType, boolean autoPickup) {
         int xp = FarmingManager.getCropXp(cropType);
         FarmingManager.addXp(player, xp);
 
@@ -127,7 +139,14 @@ public class FarmingListener implements Listener {
         if (level > 0 && extraDrop != null
                 && ThreadLocalRandom.current().nextDouble() < FarmingManager.getExtraDropChance(level)) {
             extraAmount = FarmingManager.rollExtraDropAmount(level);
-            giveItems(player, block, List.of(new ItemStack(extraDrop, extraAmount)));
+            if (autoPickup) {
+                giveItems(player, block, List.of(new ItemStack(extraDrop, extraAmount)));
+            } else {
+                block.getWorld().dropItemNaturally(
+                        block.getLocation().add(0.5, 0.5, 0.5),
+                        new ItemStack(extraDrop, extraAmount)
+                );
+            }
             player.sendMessage(Component.text().append(
                     Component.text("[농사] ", Palette.GREEN),
                     Component.text("🍀 특전 발동! ", Palette.GOLD),
