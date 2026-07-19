@@ -10,6 +10,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.entity.Player;
@@ -28,6 +29,9 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class FarmingListener implements Listener {
+
+    // 자동심기 딜레이 (틱)
+    private static final long REPLANT_DELAY_TICKS = 20L;
 
     // 수확 시 자동으로 다시 심을 씨앗 (작물 블록 -> 씨앗 아이템)
     private static final Map<Material, Material> REPLANT_SEEDS = Map.of(
@@ -76,14 +80,15 @@ public class FarmingListener implements Listener {
             event.setDropItems(false);
         }
 
-        // 자동심기 (권한부여서 필요): 씨앗 1개를 소모해 같은 자리에 다시 심는다 (드랍 우선, 없으면 인벤토리)
+        // 자동심기 (권한부여서 필요): 1초 뒤 씨앗 1개를 소모해 같은 자리에 다시 심는다 (드랍 우선, 없으면 인벤토리)
         Material seed = REPLANT_SEEDS.get(type);
         if (autoReplant && seed != null && consumeSeed(player, drops, seed)) {
-            Bukkit.getScheduler().runTask(BackasSurvivalPackExtended.getInstance(), () -> {
+            Bukkit.getScheduler().runTaskLater(BackasSurvivalPackExtended.getInstance(), () -> {
                 if (block.getType() == Material.AIR) {
                     block.setType(type);
+                    block.getWorld().playSound(block.getLocation(), Sound.ITEM_CROP_PLANT, 0.8f, 1f);
                 }
-            });
+            }, REPLANT_DELAY_TICKS);
         }
         if (drops != null) {
             giveItems(player, block, drops);
