@@ -56,8 +56,8 @@ public class EasyPurchaseInventory {
         LIST_OF_ITEMS.put(new ItemStack(Material.ELYTRA), 1250000);
         LIST_OF_ITEMS.put(ItemFactory.getHead(), 200000);
         LIST_OF_ITEMS.put(ItemFactory.getTPCoolTimeClear(), 10000);
-        LIST_OF_ITEMS.put(ItemFactory.getAutoReplantLicense(), 200000);
-        LIST_OF_ITEMS.put(ItemFactory.getAutoPickupLicense(), 300000);
+        LIST_OF_ITEMS.put(ItemFactory.getAutoReplantLicense(), 500000);
+        LIST_OF_ITEMS.put(ItemFactory.getAutoPickupLicense(), 500000);
         LIST_OF_ITEMS.put(new ItemStack(Material.WHITE_DYE), 500);
         LIST_OF_ITEMS.put(new ItemStack(Material.LIGHT_GRAY_DYE), 500);
         LIST_OF_ITEMS.put(new ItemStack(Material.GRAY_DYE), 500);
