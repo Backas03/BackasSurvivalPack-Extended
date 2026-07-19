@@ -14,6 +14,10 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class MiningListener implements Listener {
@@ -43,6 +47,11 @@ public class MiningListener implements Listener {
             return;
         }
 
+        // 자동줍기: 드랍을 바닥에 떨어뜨리지 않고 인벤토리로 직접 지급 (경험치 구슬은 그대로)
+        List<ItemStack> drops = new ArrayList<>(block.getDrops(player.getInventory().getItemInMainHand(), player));
+        event.setDropItems(false);
+        giveItems(player, block, drops);
+
         int xp = MiningManager.getOreXp(type);
         MiningManager.addXp(player, xp);
 
@@ -54,10 +63,7 @@ public class MiningListener implements Listener {
         if (level > 0 && extraDrop != null
                 && ThreadLocalRandom.current().nextDouble() < MiningManager.getExtraDropChance(level)) {
             extraAmount = MiningManager.rollExtraDropAmount(level);
-            block.getWorld().dropItemNaturally(
-                    block.getLocation().add(0.5, 0.5, 0.5),
-                    new ItemStack(extraDrop, extraAmount)
-            );
+            giveItems(player, block, List.of(new ItemStack(extraDrop, extraAmount)));
             player.sendMessage(Component.text().append(
                     Component.text("[광질] ", Palette.AQUA),
                     Component.text("💎 특전 발동! ", Palette.GOLD),
@@ -76,5 +82,15 @@ public class MiningListener implements Listener {
                         : Component.empty(),
                 Component.text("(광질 Lv." + level + " · " + progress + ")", Palette.GRAY)
         ).build());
+    }
+
+    private static void giveItems(Player player, Block block, Collection<ItemStack> items) {
+        for (ItemStack item : items) {
+            if (item == null || item.getAmount() <= 0) continue;
+            HashMap<Integer, ItemStack> overflow = player.getInventory().addItem(item);
+            for (ItemStack left : overflow.values()) {
+                block.getWorld().dropItemNaturally(block.getLocation().add(0.5, 0.5, 0.5), left);
+            }
+        }
     }
 }

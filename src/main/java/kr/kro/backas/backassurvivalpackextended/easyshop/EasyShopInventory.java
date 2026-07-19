@@ -42,6 +42,20 @@ public class EasyShopInventory {
         COSTS.put(Material.TOTEM_OF_UNDYING, 500);
         COSTS.put(Material.SUSPICIOUS_STEW, 1250);
         COSTS.put(Material.COOKIE, 20);
+        // 요리류: 재료값 + 가공 보너스 (생고기는 팔 수 없음 - 구워야 값이 나감)
+        COSTS.put(Material.BAKED_POTATO, 45);
+        COSTS.put(Material.BREAD, 250);
+        COSTS.put(Material.COOKED_BEEF, 60);
+        COSTS.put(Material.COOKED_PORKCHOP, 60);
+        COSTS.put(Material.COOKED_CHICKEN, 45);
+        COSTS.put(Material.COOKED_MUTTON, 50);
+        COSTS.put(Material.COOKED_RABBIT, 55);
+        COSTS.put(Material.COOKED_COD, 45);
+        COSTS.put(Material.COOKED_SALMON, 60);
+        COSTS.put(Material.PUMPKIN_PIE, 180);
+        COSTS.put(Material.MUSHROOM_STEW, 120);
+        COSTS.put(Material.RABBIT_STEW, 400);
+        COSTS.put(Material.DRIED_KELP_BLOCK, 30);
     }
 
     public static final Component INVENTORY_NAME = Component.text("판매하려는 아이템을 넣고 창을 닫아주세요")

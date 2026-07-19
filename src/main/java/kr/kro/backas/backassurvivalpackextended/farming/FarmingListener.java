@@ -1,9 +1,11 @@
 package kr.kro.backas.backassurvivalpackextended.farming;
 
+import kr.kro.backas.backassurvivalpackextended.BackasSurvivalPackExtended;
 import kr.kro.backas.backassurvivalpackextended.user.data.model.UserDataFarming;
 import kr.kro.backas.backassurvivalpackextended.util.Palette;
 import kr.kro.backas.backassurvivalpackextended.util.PlacedBlockTracker;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -16,9 +18,23 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerHarvestBlockEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class FarmingListener implements Listener {
+
+    // 수확 시 자동으로 다시 심을 씨앗 (작물 블록 -> 씨앗 아이템)
+    private static final Map<Material, Material> REPLANT_SEEDS = Map.of(
+            Material.WHEAT, Material.WHEAT_SEEDS,
+            Material.CARROTS, Material.CARROT,
+            Material.POTATOES, Material.POTATO,
+            Material.BEETROOTS, Material.BEETROOT_SEEDS,
+            Material.NETHER_WART, Material.NETHER_WART
+    );
 
     @EventHandler(ignoreCancelled = true)
     public void onBlockPlace(BlockPlaceEvent event) {
@@ -48,6 +64,21 @@ public class FarmingListener implements Listener {
             return;
         }
 
+        // 자동줍기: 드랍을 바닥에 떨어뜨리지 않고 인벤토리로 직접 지급
+        List<ItemStack> drops = new ArrayList<>(block.getDrops(player.getInventory().getItemInMainHand(), player));
+        event.setDropItems(false);
+
+        // 자동심기: 드랍(없으면 인벤토리)에서 씨앗 1개를 소모해 같은 자리에 다시 심는다
+        Material seed = REPLANT_SEEDS.get(type);
+        if (seed != null && consumeSeed(player, drops, seed)) {
+            Bukkit.getScheduler().runTask(BackasSurvivalPackExtended.getInstance(), () -> {
+                if (block.getType() == Material.AIR) {
+                    block.setType(type);
+                }
+            });
+        }
+        giveItems(player, block, drops);
+
         harvest(player, block, type);
     }
 
@@ -63,6 +94,27 @@ public class FarmingListener implements Listener {
         harvest(player, block, type);
     }
 
+    private boolean consumeSeed(Player player, List<ItemStack> drops, Material seed) {
+        for (ItemStack drop : drops) {
+            if (drop != null && drop.getType() == seed && drop.getAmount() > 0) {
+                drop.setAmount(drop.getAmount() - 1);
+                return true;
+            }
+        }
+        // 드랍에 씨앗이 없으면 인벤토리에서 소모
+        return player.getInventory().removeItem(new ItemStack(seed, 1)).isEmpty();
+    }
+
+    private static void giveItems(Player player, Block block, Collection<ItemStack> items) {
+        for (ItemStack item : items) {
+            if (item == null || item.getAmount() <= 0) continue;
+            HashMap<Integer, ItemStack> overflow = player.getInventory().addItem(item);
+            for (ItemStack left : overflow.values()) {
+                block.getWorld().dropItemNaturally(block.getLocation().add(0.5, 0.5, 0.5), left);
+            }
+        }
+    }
+
     private void harvest(Player player, Block block, Material cropType) {
         int xp = FarmingManager.getCropXp(cropType);
         FarmingManager.addXp(player, xp);
@@ -75,10 +127,7 @@ public class FarmingListener implements Listener {
         if (level > 0 && extraDrop != null
                 && ThreadLocalRandom.current().nextDouble() < FarmingManager.getExtraDropChance(level)) {
             extraAmount = FarmingManager.rollExtraDropAmount(level);
-            block.getWorld().dropItemNaturally(
-                    block.getLocation().add(0.5, 0.5, 0.5),
-                    new ItemStack(extraDrop, extraAmount)
-            );
+            giveItems(player, block, List.of(new ItemStack(extraDrop, extraAmount)));
             player.sendMessage(Component.text().append(
                     Component.text("[농사] ", Palette.GREEN),
                     Component.text("🍀 특전 발동! ", Palette.GOLD),
